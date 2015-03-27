@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.viz.infantree"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -21,7 +21,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.3+'
+    compile 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'  // For Core TwowayView Functionality
+    compile 'org.lucasr.twowayview:layouts:1.0.0-SNAPSHOT@aar' // For Additional Layouts
     compile 'com.android.support:recyclerview-v7:21.0.3'
-    compile 'org.lucasr.twowayview:twowayview:0.1.4'
+
 }
