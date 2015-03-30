@@ -1,4 +1,4 @@
-package com.example.viz.infantree;
+package com.example.viz.infantree.Home;
 
 /**
  * Created by chayongbin on 15. 3. 30..
@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.viz.infantree.R;
+
 import org.lucasr.twowayview.TwoWayLayoutManager;
 import org.lucasr.twowayview.widget.TwoWayView;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
-import org.lucasr.twowayview.widget.StaggeredGridLayoutManager;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleViewHolder> {
     private static final int COUNT = 100;
