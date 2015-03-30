@@ -15,14 +15,14 @@ public class HomeView extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.home_main);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         mFragment = (LayoutFragment) getSupportFragmentManager().findFragmentById(R.id.content);
 
         if (mFragment == null) {
-            mFragment = (LayoutFragment) LayoutFragment.newInstance(R.layout.layout_spannable_grid);
+            mFragment = (LayoutFragment) LayoutFragment.newInstance(R.layout.home_spannable_gird);
             ft.add(R.id.content, mFragment);
             ft.commit();
         } else {
