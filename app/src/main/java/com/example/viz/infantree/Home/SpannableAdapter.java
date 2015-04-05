@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.viz.infantree.R;
@@ -16,45 +17,51 @@ import com.example.viz.infantree.R;
 import org.lucasr.twowayview.TwoWayLayoutManager;
 import org.lucasr.twowayview.widget.TwoWayView;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleViewHolder> {
-    private static final int COUNT = 100;
+public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.SimpleViewHolder> {
+
+    // <<Spannable Grid View Layout Adapter>>
 
     private final Context mContext;
     private final TwoWayView mRecyclerView;
     private final List<Integer> mItems;
-    private final int mLayoutId;
     private int mCurrentItemId = 0;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
+        public final ImageView image;
 
+        // <<home_item.xml 구성요소>>
         public SimpleViewHolder(View view) {
             super(view);
+            // <<임시적으로 사용하는 TextView>>
             title = (TextView) view.findViewById(R.id.title);
+            image = (ImageView) view.findViewById(R.id.image);
         }
     }
 
-    public LayoutAdapter(Context context, TwoWayView recyclerView, int layoutId) {
+    public SpannableAdapter(Context context, TwoWayView recyclerView, int COUNT) {
+        // <<초기 구성요소 init>>
         mContext = context;
         mItems = new ArrayList<Integer>(COUNT);
         for (int i = 0; i < COUNT; i++) {
             addItem(i);
         }
-
         mRecyclerView = recyclerView;
-        mLayoutId = layoutId;
     }
 
+    // <<아이템 추가>>
     public void addItem(int position) {
         final int id = mCurrentItemId++;
         mItems.add(position, id);
         notifyItemInserted(position);
     }
 
+    // <<아이템 제거>>
     public void removeItem(int position) {
         mItems.remove(position);
         notifyItemRemoved(position);
@@ -68,6 +75,8 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
+
+        // 테스트를 위한 아이템 배치 방식
         holder.title.setText(mItems.get(position).toString());
 
         boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
@@ -89,6 +98,50 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             lp.colSpan = colSpan;
             itemView.setLayoutParams(lp);
         }
+
+
+        // <<실제 앱의 아이템 배치 방식>>
+        // * 아이템 갯수에 따른 배치방식
+
+        if (mItems.size() == 0) {
+
+            // 아이템이 없을 경우
+
+        } else if (mItems.size() == 1) {
+
+            // 아이템이 1개
+
+            // 오늘의 사진이 등록이 된 경우
+
+            // 오늘의 사진이 등록이 안 된 경우
+
+        } else if (mItems.size() == 2) {
+
+            // 아이템이 2개
+
+            // 오늘의 사진이 등록이 된 경우
+
+            // 오늘의 사진이 등록이 안 된 경우
+
+        } else if (mItems.size() == 3) {
+
+            // 아이템이 3개
+
+            // 오늘의 사진이 등록이 된 경우
+
+            // 오늘의 사진이 등록이 안 된 경우
+
+        } else {
+
+            // 아이템이 4개 이상
+
+            // 오늘의 사진이 등록이 된 경우
+
+            // 오늘의 사진이 등록이 안 된 경우
+
+        }
+
+
     }
 
     @Override

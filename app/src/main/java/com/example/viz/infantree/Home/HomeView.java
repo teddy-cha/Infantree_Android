@@ -1,38 +1,35 @@
 package com.example.viz.infantree.Home;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.example.viz.infantree.R;
 
+/**
+ * Created by chayongbin on 15. 3. 31..
+ */
+public class HomeView extends Activity {
 
-public class HomeView extends FragmentActivity {
-
-    private LayoutFragment mFragment;
+    private RecyclerView mRecyclerView;
+    private HomeAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        mRecyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mFragment = (LayoutFragment) getSupportFragmentManager().findFragmentById(R.id.content);
-
-        if (mFragment == null) {
-            mFragment = (LayoutFragment) LayoutFragment.newInstance(R.layout.home_spannable_gird);
-            ft.add(R.id.content, mFragment);
-            ft.commit();
-        } else {
-            ft.attach(mFragment);
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        mAdapter = new HomeAdapter(R.layout.home_row, this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -49,4 +46,6 @@ public class HomeView extends FragmentActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
