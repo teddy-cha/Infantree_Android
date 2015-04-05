@@ -16,7 +16,7 @@ import com.example.viz.infantree.R;
 public class HomeView extends Activity {
 
     private RecyclerView mRecyclerView;
-    private HomeAdapter mAdapter;
+    private HomeAdapter homeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class HomeView extends Activity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new HomeAdapter(R.layout.home_row, this);
-        mRecyclerView.setAdapter(mAdapter);
+        homeAdapter = new HomeAdapter(R.layout.home_row, this);
+        mRecyclerView.setAdapter(homeAdapter);
     }
 
     @Override

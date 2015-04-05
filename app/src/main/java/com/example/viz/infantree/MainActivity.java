@@ -4,10 +4,15 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+
+import com.example.viz.infantree.Home.HomeAdapter;
 
 // ActionBarActivity -> appcompat 사용
 public class MainActivity extends ActionBarActivity {
@@ -26,7 +31,8 @@ public class MainActivity extends ActionBarActivity {
 
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
+    private HomeAdapter homeAdapter;
+
     DrawerLayout drawer;
     ActionBarDrawerToggle mDrawerToggle;
 
@@ -34,21 +40,19 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.home_main);
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar); // 툴바를 액션바로 설정함
         getSupportActionBar().setDisplayShowTitleEnabled(false); // 기본 액션바 타이틀 안 나오게 함, 타이틀을 툴바에서 처리
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView = (RecyclerView) findViewById(R.id.home_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new MyAdapter(TITLES, ICONS, NAME, AGE, PROFILE);
+
+        mAdapter = new MyAdapter(R.layout.home_row, this, NAME, AGE, PROFILE);
         mRecyclerView.setAdapter(mAdapter);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
         drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer) {
 
@@ -67,26 +71,18 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle.syncState();
     }
 
-//
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.menu_main, menu);
 //        return true;
 //    }
 //
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
 //        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
-//
 //        return super.onOptionsItemSelected(item);
 //    }
 }

@@ -1,6 +1,6 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/DrawerLayout"
+    android:id="@+id/DrawerLayoutq"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="7dp">
@@ -15,7 +15,7 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/tool_bar"
+                android:id="@+id/tool_bar1"
                 layout="@layout/tool_bar"/>
 
             <RelativeLayout
@@ -61,7 +61,7 @@
         <!--/>-->
 
         <com.gc.materialdesign.views.ButtonFloat
-            android:id="@+id/floating_add_button"
+            android:id="@+id/floating_add_button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
