@@ -7,11 +7,13 @@ public class UserModel {
     private String name;
     private String age;
     private int profile;
+    private int backgroundImg;
 
-    public UserModel (String name, String age, int profile) {
+    public UserModel (String name, String age, int profile, int backgroundImg) {
         this.name = name;
         this.age = age;
         this.profile = profile;
+        this.backgroundImg = backgroundImg;
     }
 
     public String getName() {
@@ -24,5 +26,9 @@ public class UserModel {
 
     public int getProfile() {
         return profile;
+    }
+
+    public int getBackgroundImg() {
+        return backgroundImg;
     }
 }

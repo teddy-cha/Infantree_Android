@@ -1,10 +1,13 @@
 package com.example.viz.infantree.home.navigation;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.viz.infantree.R;
@@ -24,6 +27,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
     private String name;
     private String age;
     private int profile;
+    private int background;
 
     public HomeNavigationAdapter(UserModel userModel) {
         this.mNavTitles = new String[]{"Timeline", "Filter", "Setting"};
@@ -34,6 +38,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
         this.name = userModel.getName();
         this.age = userModel.getAge();
         this.profile = userModel.getProfile();
+        this.background = userModel.getBackgroundImg();
     }
 
     // 내부 클래스 - 뷰의 아이디와 뷰에 필요한 정보를 가지고 있는 홀더
@@ -47,6 +52,8 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
         TextView tvAge;
         ImageView ivProfile;
 
+        RelativeLayout navigationLayout;
+
         // 생성자
         public ViewHolder(View itemView, int ViewType) {
             super(itemView);
@@ -59,6 +66,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
                 tvName = (TextView) itemView.findViewById(R.id.name);
                 tvAge = (TextView) itemView.findViewById(R.id.age);
                 ivProfile = (ImageView) itemView.findViewById(R.id.circleView);
+                navigationLayout = (RelativeLayout) itemView.findViewById(R.id.navi_header);
                 HolderId = 0;
             }
         }
@@ -105,8 +113,8 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
         else if (holder.HolderId == 0) {
             holder.ivProfile.setImageResource(profile);
             holder.tvName.setText(name);
-            String test = (String) holder.tvName.getText();
             holder.tvAge.setText(age);
+            holder.navigationLayout.setBackgroundResource(background);
         }
     }
 
