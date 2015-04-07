@@ -1,4 +1,4 @@
-package com.example.viz.infantree.Home;
+package com.example.viz.infantree.home.navigation;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +24,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
     private String age;
     private int profile;
 
-    HomeNavigationAdapter(String TITLES[], int ICONS[], String name, String age, int profile) {
+    public HomeNavigationAdapter(String TITLES[], int ICONS[], String name, String age, int profile) {
         mNavTitles = TITLES;
         mIcons = ICONS;
 
@@ -68,7 +68,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
         // 뷰의 타입이 아이템일 때
         if (viewType == TYPE_ITEM) {
 
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row, parent, false); // 레이아웃 인플레이트하고 리턴값으로 뷰를 받아옴
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_row_item, parent, false); // 레이아웃 인플레이트하고 리턴값으로 뷰를 받아옴
             ViewHolder vhItem = new ViewHolder(v, viewType); // 아이템 뷰홀더 생성
 
             return vhItem;
@@ -78,7 +78,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
         // 뷰의 타입이 헤더일 때
         else if (viewType == TYPE_HEADER) {
 
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false); // 마찬가지
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_header, parent, false); // 마찬가지
             ViewHolder vhHeader = new ViewHolder(v, viewType); // 헤더 뷰홀더 생성
 
             return vhHeader;

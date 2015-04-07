@@ -1,4 +1,4 @@
-package com.example.viz.infantree.Home;
+package com.example.viz.infantree.home;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -10,12 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.example.viz.infantree.home.navigation.HomeNavigationAdapter;
 import com.example.viz.infantree.R;
 
 // ActionBarActivity -> appcompat 사용
-public class HomeView extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity {
 
-    // nav item_row 들어갈 내용
+    // nav home_row_item 들어갈 내용
     String TITLES[] = {"타임라인", "필터", "설정"};
     int ICONS[] = {R.drawable.ic_access_time_grey600_24dp,
             R.drawable.ic_filter_list_grey600_24dp,
@@ -87,27 +88,4 @@ public class HomeView extends ActionBarActivity {
 //        homeAdapter = new HomeAdapter(R.layout.home_row, this);
 //        mRecyclerView.setAdapter(homeAdapter);
     }
-
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

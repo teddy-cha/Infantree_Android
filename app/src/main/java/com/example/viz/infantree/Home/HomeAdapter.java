@@ -1,12 +1,10 @@
-package com.example.viz.infantree.Home;
+package com.example.viz.infantree.home;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.example.viz.infantree.R;
 
