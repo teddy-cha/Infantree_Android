@@ -28,11 +28,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             spannable = (TwoWayView) itemView.findViewById(R.id.spannable_grid);
-            RelativeLayout.LayoutParams mParams;
-            mParams = (RelativeLayout.LayoutParams) spannable.getLayoutParams();
-            mParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 230, itemView.getResources().getDisplayMetrics());
-            spannable.setLayoutParams((mParams));
-            spannable.postInvalidate();
+//            RelativeLayout.LayoutParams mParams;
+//            mParams = (RelativeLayout.LayoutParams) spannable.getLayoutParams();
+//            mParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 230, itemView.getResources().getDisplayMetrics());
+//            spannable.setLayoutParams((mParams));
+//            spannable.postInvalidate();
         }
     }
 
