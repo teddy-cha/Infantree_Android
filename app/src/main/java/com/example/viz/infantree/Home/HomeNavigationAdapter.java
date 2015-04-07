@@ -1,4 +1,4 @@
-package com.example.viz.infantree;
+package com.example.viz.infantree.Home;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.viz.infantree.R;
+
 /**
  * Created by viz on 2015. 3. 31..
  */
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAdapter.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
@@ -22,7 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private String age;
     private int profile;
 
-    MyAdapter(String TITLES[], int ICONS[], String name, String age, int profile) {
+    HomeNavigationAdapter(String TITLES[], int ICONS[], String name, String age, int profile) {
         mNavTitles = TITLES;
         mIcons = ICONS;
 
@@ -61,7 +63,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // 뷰 홀더가 onCreate 될 때 해야 할 일 묘사
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HomeNavigationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // 뷰의 타입이 아이템일 때
         if (viewType == TYPE_ITEM) {
@@ -87,7 +89,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // 뷰 홀더의 한 아이템이 디스플레이되어야 할 때 실행됨
     @Override
-    public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(HomeNavigationAdapter.ViewHolder holder, int position) {
 
         // 아이템 뷰홀더의 디스플레이
         if (holder.HolderId == 1) {
