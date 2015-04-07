@@ -35,7 +35,7 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.home_main);
 
 //      <<------------TESTDATAMODEL------------->>
-        UserModel test_model = new UserModel("chaminwoo", "185day, 6mon", R.drawable.aa, R.drawable.bb);
+        UserModel test_model = new UserModel("차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
 
 //      <<---------------TIMELINE--------------->>
         recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);

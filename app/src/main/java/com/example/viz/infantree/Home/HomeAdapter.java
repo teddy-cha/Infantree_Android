@@ -26,13 +26,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             spannable = (TwoWayView) itemView.findViewById(R.id.spannable_grid);
+
         }
     }
 
     public HomeAdapter(int rowLayout, Context context) {
         this.rowLayout = rowLayout;
         this.mContext = context;
-        COUNT = 3;
+        COUNT = 10;
     }
 
     @Override
@@ -43,7 +44,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.spannable.setAdapter(new SpannableAdapter(mContext, holder.spannable, COUNT));
+        holder.spannable.setAdapter(new SpannableAdapter(mContext, holder.spannable, position+1));
+        System.out.println("---------------------------");
+        System.out.println(position);
 
     }
 

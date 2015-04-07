@@ -20,6 +20,7 @@ import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.SimpleViewHolder> {
@@ -30,6 +31,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     private final TwoWayView mRecyclerView;
     private final List<Integer> mItems;
     private int mCurrentItemId = 0;
+    private int MAX_ITEM = 3;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
@@ -47,17 +49,22 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     public SpannableAdapter(Context context, TwoWayView recyclerView, int COUNT) {
         // <<초기 구성요소 init>>
         mContext = context;
-        mItems = new ArrayList<Integer>(COUNT);
-        for (int i = 0; i < COUNT; i++) {
-            addItem(i);
+        mItems = new ArrayList<Integer>(3);
+        for (int i = 0; i < 3; i++) {
+            if (i <= MAX_ITEM - 1) {
+                addItem(i);
+            }
         }
         mRecyclerView = recyclerView;
     }
 
     // <<아이템 추가>>
     public void addItem(int position) {
-        final int id = mCurrentItemId++;
-        mItems.add(position, id);
+        if (mItems != null) {
+            mCurrentItemId += 1;
+            final int id = mCurrentItemId;
+            mItems.add(position, id);
+        }
         notifyItemInserted(position);
     }
 
@@ -80,67 +87,60 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         holder.title.setText(mItems.get(position).toString());
 
         boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
+//        boolean isVertical = true;
         final View itemView = holder.itemView;
 
         final int itemId = mItems.get(position);
+        System.out.println("*********"+ mItems +"*********");
 
         final SpannableGridLayoutManager.LayoutParams lp =
                 (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
 
-        final int span1 = (itemId == 0 || itemId == 3 ? 2 : 1);
-        final int span2 = (itemId == 0 ? 2 : (itemId == 3 ? 3 : 1));
-
-        final int colSpan = (isVertical ? span2 : span1);
-        final int rowSpan = (isVertical ? span1 : span2);
-
-        if (lp.rowSpan != rowSpan || lp.colSpan != colSpan) {
-            lp.rowSpan = rowSpan;
-            lp.colSpan = colSpan;
-            itemView.setLayoutParams(lp);
-        }
-
-
         // <<실제 앱의 아이템 배치 방식>>
         // * 아이템 갯수에 따른 배치방식
 
-        if (mItems.size() == 0) {
+        if (mItems.size() == 1) {
 
-            // 아이템이 없을 경우
-
-        } else if (mItems.size() == 1) {
-
-            // 아이템이 1개
-
-            // 오늘의 사진이 등록이 된 경우
-
-            // 오늘의 사진이 등록이 안 된 경우
+            final int one_colSpan = 3;
+            final int one_rowSpan = 2;
+            lp.rowSpan = one_rowSpan;
+            lp.colSpan = one_colSpan;
+            itemView.setLayoutParams(lp);
 
         } else if (mItems.size() == 2) {
+            final int two_colSpan = 2;
+            final int two_rowSpan = 2;
 
-            // 아이템이 2개
+            lp.rowSpan = two_rowSpan;
+            lp.colSpan = two_colSpan;
+            itemView.setLayoutParams(lp);
 
-            // 오늘의 사진이 등록이 된 경우
-
-            // 오늘의 사진이 등록이 안 된 경우
-
-        } else if (mItems.size() == 3) {
-
-            // 아이템이 3개
-
-            // 오늘의 사진이 등록이 된 경우
-
-            // 오늘의 사진이 등록이 안 된 경우
 
         } else {
+            final int three_span1;
+            final int three_span2;
 
-            // 아이템이 4개 이상
+            three_span1 = (itemId == 3 || itemId == 2 ? 1 : 2);
+            three_span2 = (itemId == 3 || itemId == 2 ? 1 : 2);
 
-            // 오늘의 사진이 등록이 된 경우
+            lp.rowSpan = three_span1;
+            lp.colSpan = three_span2;
 
-            // 오늘의 사진이 등록이 안 된 경우
+            itemView.setLayoutParams(lp);
+
+
+//            final int three_span1;
+//            final int three_span2;
+//
+//            three_span1 = (itemId == 0 || itemId == 2 ? 1 : 2);
+//            three_span2 = (itemId == 0 || itemId == 2 ? 1 : 2);
+//
+//            lp.rowSpan = three_span1;
+//            lp.colSpan = three_span2;
+//
+//            itemView.setLayoutParams(lp);
 
         }
-
 
     }
 
