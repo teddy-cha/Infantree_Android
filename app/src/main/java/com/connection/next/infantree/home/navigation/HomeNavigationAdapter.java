@@ -1,4 +1,4 @@
-package com.collection.next.infantree.home.navigation;
+package com.connection.next.infantree.home.navigation;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.collection.next.infantree.R;
-import com.collection.next.infantree.model.UserModel;
+import com.connection.next.infantree.R;
+import com.connection.next.infantree.model.UserModel;
 
 /**
  * Created by viz on 2015. 3. 31..

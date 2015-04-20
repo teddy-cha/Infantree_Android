@@ -1,4 +1,4 @@
-package com.collection.next.infantree;
+package com.connection.next.infantree;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

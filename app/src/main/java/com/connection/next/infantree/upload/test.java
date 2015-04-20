@@ -1,4 +1,4 @@
-package com.collection.next.infantree.upload;
+package com.connection.next.infantree.upload;
 
 /**
  * Created by chayongbin on 15. 4. 8..

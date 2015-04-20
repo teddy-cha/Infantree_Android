@@ -1,4 +1,4 @@
-package com.collection.next.infantree.home;
+package com.connection.next.infantree.home;
 
 /**
  * Created by chayongbin on 15. 3. 30..
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.collection.next.infantree.R;
+import com.connection.next.infantree.R;
 
 import org.lucasr.twowayview.TwoWayLayoutManager;
 import org.lucasr.twowayview.widget.TwoWayView;

@@ -1,4 +1,4 @@
-package com.collection.next.infantree.db;
+package com.connection.next.infantree.db;
 
 /**
  * Created by chayongbin on 15. 4. 15..

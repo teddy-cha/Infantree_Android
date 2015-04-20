@@ -1,4 +1,4 @@
-package com.collection.next.infantree.model;
+package com.connection.next.infantree.model;
 
 /**
  * Created by chayongbin on 15. 4. 16..

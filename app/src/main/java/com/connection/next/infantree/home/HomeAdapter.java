@@ -1,4 +1,4 @@
-package com.collection.next.infantree.home;
+package com.connection.next.infantree.home;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.collection.next.infantree.R;
+import com.connection.next.infantree.R;
 
 import org.lucasr.twowayview.widget.TwoWayView;
 

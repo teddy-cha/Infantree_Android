@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.collection.next.infantree" >
+    package="com.connection.next.infantree" >
     <user-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -9,15 +9,15 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <provider
-            android:authorities="com.collection.next.infantree.provider"
-            android:name="provider.PhotoProvider"
+            android:authorities="com.connection.next.infantree.provider"
+            android:name=".provider.PhotoProvider"
             android:enabled="true"
             android:exported="true"
             android:grantUriPermissions="true"
-            android:readPermission="com.collection.next.infantree.provider.READ"
-            android:writePermission="com.collection.next.infantree.provider.WRITE" />
+            android:readPermission="com.connection.next.infantree.provider.READ"
+            android:writePermission="com.connection.next.infantree.provider.WRITE" />
         <activity
-            android:name="com.collection.next.infantree.home.HomeActivity"
+            android:name="com.connection.next.infantree.home.HomeActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

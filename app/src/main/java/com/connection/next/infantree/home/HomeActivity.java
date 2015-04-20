@@ -1,4 +1,4 @@
-package com.collection.next.infantree.home;
+package com.connection.next.infantree.home;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -10,9 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.collection.next.infantree.home.navigation.HomeNavigationAdapter;
-import com.collection.next.infantree.R;
-import com.collection.next.infantree.model.UserModel;
+import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
+import com.connection.next.infantree.R;
+import com.connection.next.infantree.model.UserModel;
 
 // ActionBarActivity -> appcompat 사용
 public class HomeActivity extends ActionBarActivity {

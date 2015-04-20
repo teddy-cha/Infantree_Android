@@ -1,12 +1,12 @@
-package com.collection.next.infantree.db;
+package com.connection.next.infantree.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.collection.next.infantree.network.ImageDownloadHelper;
-import com.collection.next.infantree.provider.PhotoContract;
+import com.connection.next.infantree.network.ImageDownloadHelper;
+import com.connection.next.infantree.provider.PhotoContract;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

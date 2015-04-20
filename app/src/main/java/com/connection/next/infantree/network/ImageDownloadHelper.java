@@ -1,4 +1,4 @@
-package com.collection.next.infantree.network;
+package com.connection.next.infantree.network;
 
 import android.content.Context;
 import android.util.Log;

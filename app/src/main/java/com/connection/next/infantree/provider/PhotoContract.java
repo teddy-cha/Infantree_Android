@@ -1,4 +1,4 @@
-package com.collection.next.infantree.provider;
+package com.connection.next.infantree.provider;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
  */
 public final class PhotoContract {
 
-    public static final String AUTHORITY = "com.collection.next.infantree.provider";
+    public static final String AUTHORITY = "com.connection.next.infantree.provider";
 
     public static final Uri CONTENT_URI = Uri.parse("content://"+AUTHORITY);
 

@@ -1,4 +1,4 @@
-package com.collection.next.infantree.provider;
+package com.connection.next.infantree.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -47,32 +47,33 @@ public class PhotoProvider extends ContentProvider {
 
     private void tableCreate() {
         String photo_sql = "CREATE TABLE IF NOT EXISTS "
-                + TABLE_NAME + " "
-                + "(Photo_Id interger primary key autoincrement "
-                + " Photo_Path text not null "
-                + " Date date not null);";
+                + TABLE_NAME
+                + "(Photo_Id integer primary key autoincrement,"
+                + "Photo_Path text not null,"
+                + "Date date not null);";
         database.execSQL(photo_sql);
     }
 
-    private boolean isTalbleExist() {
-        String searchTable = "select distinct tbl_name from" +
-                "sqlite master where tbl_name = '" + TABLE_NAME + "';";
-        Cursor cursor = database.rawQuery(searchTable, null);
-
-        if(cursor.getCount() == 0) {
-            return false;
-        }
-        cursor.close();
-        return true;
-    }
+//    private boolean isTalbleExist() {
+//        String searchTable = "select distinct tbl_name from" +
+//                "sqlite master where tbl_name = '" + TABLE_NAME + "';";
+//        Cursor cursor = database.rawQuery(searchTable, null);
+//
+//        if(cursor.getCount() == 0) {
+//            return false;
+//        }
+//        cursor.close();
+//        return true;
+//    }
 
     @Override
     public boolean onCreate() {
         this.context = getContext();
         sqLiteInitalize();
-        if (!isTalbleExist()) {
-            tableCreate();
-        }
+//        if (!isTalbleExist()) {
+//            tableCreate();
+//        }
+        tableCreate();
         return false;
     }
 
