@@ -10,12 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
 import com.connection.next.infantree.model.UserModel;
+import com.gc.materialdesign.views.ButtonFloat;
 
 // ActionBarActivity -> appcompat 사용
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
 
@@ -28,6 +29,7 @@ public class HomeActivity extends ActionBarActivity {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
 
+    ButtonFloat floatingButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class HomeActivity extends ActionBarActivity {
         /*
          * Time Line
          */
-        recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.home_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         homeAdapter = new HomeAdapter(R.layout.home_row, this);
@@ -81,5 +83,13 @@ public class HomeActivity extends ActionBarActivity {
 
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        floatingButton = (ButtonFloat) findViewById(R.id.floating_add_button);
+        floatingButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        new AddPhotoDialogFragment().show(getSupportFragmentManager(), "add_photo");
     }
 }
