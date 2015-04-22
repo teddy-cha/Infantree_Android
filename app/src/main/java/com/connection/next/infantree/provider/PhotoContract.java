@@ -15,7 +15,7 @@ public final class PhotoContract {
     public static final class Photo implements BaseColumns {
         public static final String PHOTO_ID = "Photo_Id";
         public static final String PHOTO_PATH = "Photo_Path";
-        public static final String DATE = "Date";
+        public static final String DATE = "date";
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(
                 PhotoContract.CONTENT_URI, Photo.class.getSimpleName()

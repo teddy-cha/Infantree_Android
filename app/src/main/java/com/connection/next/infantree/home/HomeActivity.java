@@ -28,7 +28,6 @@ public class HomeActivity extends ActionBarActivity {
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -50,7 +50,7 @@ public class PhotoProvider extends ContentProvider {
                 + TABLE_NAME
                 + "(Photo_Id integer primary key autoincrement,"
                 + "Photo_Path text not null,"
-                + "Date date not null);";
+                + "date date not null);";
         database.execSQL(photo_sql);
     }
 
