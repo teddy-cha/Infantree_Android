@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -14,6 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.connection.next.infantree.R;
+
+import java.io.File;
 
 /**
  * Created by viz on 15. 4. 20..
@@ -57,6 +61,11 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
                 }
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = new File(Environment.getExternalStorageDirectory(), "test.jpg"); // TODO: 내부로 바꾸기
+                Uri outputFileUri = Uri.fromFile(file);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri); // 여기도 어떻게 해야 함
+                // 임시 외부 파일로 저장한다 -> 썸네일 아닌 고화질 원본 얻기 위해
+
                 if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivityForResult(cameraIntent, REQUEST_CAMERA_IMAGE);
                 } else {
@@ -75,17 +84,20 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
                 startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), REQUEST_GALLERY_IMAGE);
                 break;
         }
-
-        getDialog().dismiss();
     }
 
     // TODO: 여기 완성할 것!
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == getActivity().RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CAMERA_IMAGE:
-
+                    if (data != null)
+                        Log.e("testing", "OK - GOOD!");
+                    else
+                        Log.e("testing", "FAIL - BAD!");
                     break;
                 case REQUEST_GALLERY_IMAGE:
 
@@ -94,5 +106,10 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
         } else {
             Toast.makeText(getActivity(), "[onActivityResult] 오류가 발생했습니다!", Toast.LENGTH_SHORT).show();
         }
+
+        getDialog().dismiss();
+        // onClick에서 dismiss를 해버리면 startActivity를 호출한 fragment가 닫히기 때문에
+        // onActivityResult를 못 받아오는 것 같다. 따라서 반드시 onActivityResult에서 할 일을 다 처리한 다음에
+        // dismiss를 해줘야 한다. 이것 때문에 한참 헤맸다...ㅠㅠ
     }
 }
