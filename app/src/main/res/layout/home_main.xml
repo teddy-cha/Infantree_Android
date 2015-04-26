@@ -34,16 +34,6 @@
 
         </LinearLayout>
 
-        <!--<View-->
-        <!--android:layout_width="60dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:background="@drawable/round_button"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginBottom="15dp"-->
-        <!--android:layout_marginRight="15dp"-->
-        <!--/>-->
-
         <com.gc.materialdesign.views.ButtonFloat
             android:id="@+id/floating_add_button"
             android:layout_width="wrap_content"
@@ -61,7 +51,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"
-        android:layout_width="320dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:background="#ffffff"

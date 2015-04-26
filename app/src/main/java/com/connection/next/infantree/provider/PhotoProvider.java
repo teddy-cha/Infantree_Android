@@ -71,9 +71,8 @@ public class PhotoProvider extends ContentProvider {
         this.context = getContext();
         sqLiteInitalize();
 //        if (!isTalbleExist()) {
-//            tableCreate();
+            tableCreate();
 //        }
-        tableCreate();
         return false;
     }
 

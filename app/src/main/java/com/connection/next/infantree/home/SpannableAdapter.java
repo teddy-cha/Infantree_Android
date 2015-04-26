@@ -85,12 +85,12 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         // 테스트를 위한 아이템 배치 방식
         holder.title.setText(mItems.get(position).toString());
 
-        boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
+//        boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
 //        boolean isVertical = true;
         final View itemView = holder.itemView;
 
         final int itemId = mItems.get(position);
-        System.out.println("*********"+ mItems +"*********");
+//        System.out.println("*********"+ mItems +"*********");
 
         final SpannableGridLayoutManager.LayoutParams lp =
                 (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();

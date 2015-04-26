@@ -1,5 +1,7 @@
 package com.connection.next.infantree.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -10,9 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.connection.next.infantree.db.ProviderDBHelper;
 import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.model.UserModel;
+import com.connection.next.infantree.network.Proxy;
+import com.connection.next.infantree.network.SyncDataService;
 
 // ActionBarActivity -> appcompat 사용
 public class HomeActivity extends ActionBarActivity {
@@ -24,9 +29,9 @@ public class HomeActivity extends ActionBarActivity {
     RecyclerView.LayoutManager mLayoutManager;
     DrawerLayout drawer;
     ActionBarDrawerToggle mDrawerToggle;
-
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +41,7 @@ public class HomeActivity extends ActionBarActivity {
         /*
          * Navigation Bar 에 사용할 Data Model에 대한 값을 미리 설정
          */
-        UserModel test_model = new UserModel("AX10374561", "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
-
+        UserModel test_model = new UserModel("1004", "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
 
         /*
          * Time Line
@@ -80,5 +84,13 @@ public class HomeActivity extends ActionBarActivity {
 
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        Proxy proxy = new Proxy(getApplicationContext());
+        ProviderDBHelper providerDBHelper = new ProviderDBHelper(getApplicationContext());
+        String jsonData = proxy.getJSON();
+        providerDBHelper.insertJsonData(jsonData);
+
+//        Intent intentSync = new Intent("com.connection.next.infantree.network.SyncDataService");
+//        startService(intentSync);
     }
 }

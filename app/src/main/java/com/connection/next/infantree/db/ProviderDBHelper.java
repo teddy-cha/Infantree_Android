@@ -23,14 +23,12 @@ public class ProviderDBHelper {
 
     private static final String TAG = ProviderDBHelper.class.getSimpleName();
     private Context context;
-    private SharedPreferences sharedPreferences;
 
     public ProviderDBHelper(Context context) {
         this.context = context;
     }
 
     public void insertJsonData(String jsonData) {
-        String Photo_Id;
         String Photo_Path;
         String date;
 
@@ -42,17 +40,18 @@ public class ProviderDBHelper {
             /*
              * 실제 서버의 데이터 베이스 꼭 확인해서 변수명 등 변경작업하기.
              * 서버에 파일을 업로드 할 때 유니크 아이디를 받아 파일을 저장할 떄 이름을 바꾸는 작업이 필요함.
-             *
              */
 
             for (int i = 0; i < photoJson.length(); i++) {
                 JSONObject jsonObject = photoJson.getJSONObject(i);
-                Photo_Id = jsonObject.getString("Photo_Id");
-                Photo_Path = jsonObject.getString("Photo_Path");
+                Photo_Path = jsonObject.getString("_id");
                 date = jsonObject.getString("date");
+                System.out.println("----------Insert Json Data-----------");
+                System.out.println("Photo_Path is " + Photo_Path);
+                System.out.println("date id " + date);
+
 
                 try {
-                    Photo_Id = URLDecoder.decode(Photo_Id, "UTF-8");
                     Photo_Path = URLDecoder.decode(Photo_Path, "UTF-8");
                     date = URLDecoder.decode(date, "UTF-8");
                 } catch (Exception e) {
@@ -60,13 +59,12 @@ public class ProviderDBHelper {
                 }
 
                 ContentValues values = new ContentValues();
-                values.put("Photo_Id", Photo_Id);
                 values.put("Photo_Path", Photo_Path);
                 values.put("date", date);
 
                 context.getContentResolver().insert(PhotoContract.Photo.CONTENT_URI, values);
 
-                imageDownloadHelper.downloadImageFile("http://125.209.194.223:3000/image?_id=" + Photo_Id , Photo_Id);
+                imageDownloadHelper.downloadImageFile("http://125.209.194.223:3000/image?_id=" + Photo_Path , Photo_Path);
             }
         } catch (Exception e) {
             Log.e(TAG, "JSON ERROR: " + e);

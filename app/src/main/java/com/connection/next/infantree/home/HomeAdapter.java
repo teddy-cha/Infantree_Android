@@ -47,8 +47,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
          * 수정 필요함 !!!
          */
         holder.spannable.setAdapter(new SpannableAdapter(mContext, holder.spannable, position+1));
-        System.out.println("---------------------------");
-        System.out.println(position);
+//        System.out.println("---------------------------");
+//        System.out.println(position);
 
     }
 
