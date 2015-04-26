@@ -16,8 +16,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.network.ImageUploadHelper;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by viz on 15. 4. 20..
@@ -61,13 +66,21 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
                 }
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = new File(Environment.getExternalStorageDirectory(), "test.jpg"); // TODO: 내부로 바꾸기
-                Uri outputFileUri = Uri.fromFile(file);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri); // 여기도 어떻게 해야 함
-                // 임시 외부 파일로 저장한다 -> 썸네일 아닌 고화질 원본 얻기 위해
-
+                // Ensure that there's a camera activity to handle the intent
                 if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivityForResult(cameraIntent, REQUEST_CAMERA_IMAGE);
+                    // Create the File where the photo should go
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                Uri.fromFile(photoFile));
+                        startActivityForResult(cameraIntent, REQUEST_CAMERA_IMAGE);
+                    }
                 } else {
                     Toast.makeText(getActivity(), "카메라를 실행 가능한 앱이 없습니다!", Toast.LENGTH_SHORT).show();
                     break;
@@ -94,10 +107,10 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
         if (resultCode == getActivity().RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CAMERA_IMAGE:
-                    if (data != null)
-                        Log.e("testing", "OK - GOOD!");
-                    else
-                        Log.e("testing", "FAIL - BAD!");
+                    Log.e("testing", currentPhotoPath); // 시작 전 intent에 특정 uri 넣어주면 data는 null값으로 반환된다
+                    ArrayList<String> singleImagePathList = new ArrayList<String>();
+                    singleImagePathList.add(currentPhotoPath);
+                    new ImageUploadHelper(getActivity()).uploadImageFile(singleImagePathList);
                     break;
                 case REQUEST_GALLERY_IMAGE:
 
@@ -111,5 +124,23 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
         // onClick에서 dismiss를 해버리면 startActivity를 호출한 fragment가 닫히기 때문에
         // onActivityResult를 못 받아오는 것 같다. 따라서 반드시 onActivityResult에서 할 일을 다 처리한 다음에
         // dismiss를 해줘야 한다. 이것 때문에 한참 헤맸다...ㅠㅠ
+    }
+
+    private String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // onActivityResult에서 data 대신 사용
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }
