@@ -102,7 +102,7 @@ public class PhotoDBHelper {
         String _id;
         String date;
 
-        String sql = "SELECT * FROM Photos GROUP BY date;";
+        String sql = "SELECT * FROM Photos GROUP BY date ORDER BY PhotoNum DESC;";
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
             _id = cursor.getString(1);
