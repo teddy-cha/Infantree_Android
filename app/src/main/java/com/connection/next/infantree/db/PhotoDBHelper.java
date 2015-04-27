@@ -119,7 +119,7 @@ public class PhotoDBHelper {
 
         String _id;
 
-        String sql = "SELECT * FROM Photos WHERE date = '" + date + "';";
+        String sql = "SELECT * FROM Photos WHERE date = '" + date + "' ORDER BY PhotoNum DESC LIMIT 3;";
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
             _id = cursor.getString(1);

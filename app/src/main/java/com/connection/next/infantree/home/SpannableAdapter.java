@@ -91,24 +91,6 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
 
-        // 테스트를 위한 아이템 배치 방식
-//        holder.title.setText(mItems.get(position).toString());
-
-
-        if (position == 0){
-            holder.title.setText(date);
-        }
-
-
-
-
-
-
-
-
-
-//        boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
-//        boolean isVertical = true;
         final View itemView = holder.itemView;
 
         final int itemId = mItems.get(position);
@@ -116,10 +98,15 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         final SpannableGridLayoutManager.LayoutParams lp =
                 (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
 
+        if (position == 0){
+            holder.title.setText(date);
+        }
+
         // <<실제 앱의 아이템 배치 방식>>
         //   아이템 갯수에 따른 배치방식
 
         if (mItems.size() == 1) {
+
 
             final int one_colSpan = 6;
             final int one_rowSpan = 4;
