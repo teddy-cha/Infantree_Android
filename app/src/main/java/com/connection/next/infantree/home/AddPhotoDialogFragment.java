@@ -19,7 +19,10 @@ import com.connection.next.infantree.R;
 import com.connection.next.infantree.network.ImageUploadHelper;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,12 +110,33 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
         if (resultCode == getActivity().RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CAMERA_IMAGE:
-                    Log.e("testing", currentPhotoPath); // 시작 전 intent에 특정 uri 넣어주면 data는 null값으로 반환된다
-                    ArrayList<String> singleImagePathList = new ArrayList<String>();
-                    singleImagePathList.add(currentPhotoPath);
-                    new ImageUploadHelper(getActivity()).uploadImageFile(singleImagePathList);
+                    // 시작 전 intent에 특정 uri 넣어주면 data는 null값으로 반환된다
+                    Log.e("testing", currentPhotoPath);
+                    ArrayList<String> singleImagePathList1 = new ArrayList<String>();
+                    singleImagePathList1.add(currentPhotoPath);
+                    new ImageUploadHelper(getActivity()).uploadImageFile(singleImagePathList1);
                     break;
                 case REQUEST_GALLERY_IMAGE:
+                    // 파일 하나일 때는 그냥 data.getData()
+                    if (data.getData() != null) {
+                        Uri photoUri = data.getData();
+                        Log.e("testing", photoUri.toString());
+
+                        String filePath = readContentUriToFile(photoUri);
+                        ArrayList<String> singleImagePathList2 = new ArrayList<String>();
+                        singleImagePathList2.add(filePath);
+                        new ImageUploadHelper(getActivity()).uploadImageFile(singleImagePathList2);
+                    } else {
+                        // 파일 두 개 이상일 때는 data.getClipData()로 가져옴
+                        ArrayList<String> multipleImagePathList = new ArrayList<String>();
+
+                        for (int i = 0; i < data.getClipData().getItemCount(); i++) {
+                            String filePath = readContentUriToFile(data.getClipData().getItemAt(i).getUri());
+                            multipleImagePathList.add(filePath);
+                        }
+
+                        new ImageUploadHelper(getActivity()).uploadImageFile(multipleImagePathList);
+                    }
 
                     break;
             }
@@ -142,5 +166,25 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
         // onActivityResult에서 data 대신 사용
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private String readContentUriToFile(Uri uri) {
+        String filePath = null;
+
+        try {
+            InputStream is = getActivity().getContentResolver().openInputStream(uri);
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+
+            File targetFile = createImageFile();
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
+
+            filePath = targetFile.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return filePath;
     }
 }
