@@ -1,7 +1,6 @@
 package com.connection.next.infantree.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -10,19 +9,23 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
-import com.connection.next.infantree.db.ProviderDBHelper;
+import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.model.UserModel;
-import com.connection.next.infantree.network.Proxy;
-import com.connection.next.infantree.network.SyncDataService;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
 
 // ActionBarActivity -> appcompat 사용
 public class HomeActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
+    private static Context context;
 
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
@@ -31,18 +34,18 @@ public class HomeActivity extends ActionBarActivity {
     ActionBarDrawerToggle mDrawerToggle;
     RecyclerView recyclerView;
     HomeAdapter homeAdapter;
-    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
+        HomeActivity.context = getApplicationContext();
 
         /*
          * Navigation Bar 에 사용할 Data Model에 대한 값을 미리 설정
          */
         UserModel test_model = new UserModel("1004", "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
-
         /*
          * Time Line
          */
@@ -84,13 +87,36 @@ public class HomeActivity extends ActionBarActivity {
 
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+    }
 
-        Proxy proxy = new Proxy(getApplicationContext());
-        ProviderDBHelper providerDBHelper = new ProviderDBHelper(getApplicationContext());
-        String jsonData = proxy.getJSON();
-        providerDBHelper.insertJsonData(jsonData);
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoadDate();
+    }
 
-//        Intent intentSync = new Intent("com.connection.next.infantree.network.SyncDataService");
-//        startService(intentSync);
+    private static AsyncHttpClient client = new AsyncHttpClient();
+
+    private void LoadDate() {
+        client.get("http://125.209.194.223:3000/image?baby_id=1004", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                PhotoDBHelper dao = new PhotoDBHelper(getApplicationContext());
+                String jsonData = new String(responseBody);
+                Log.i("test", "jsonData: " + jsonData);
+                dao.insertJsonData(jsonData);
+//                dao.getPhotoList();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+    }
+
+    public static Context getAppContext() {
+        return HomeActivity.context;
     }
 }

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.db.PhotoDBHelper;
+import com.connection.next.infantree.model.PhotoModel;
 
 import org.lucasr.twowayview.TwoWayLayoutManager;
 import org.lucasr.twowayview.widget.TwoWayView;
@@ -31,6 +33,10 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     private final List<Integer> mItems;
     private int mCurrentItemId = 0;
     private int MAX_ITEM = 3;
+    private int size;
+    private String date;
+    private PhotoDBHelper dao;
+    private ArrayList<PhotoModel> photoModelArrayList;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
@@ -45,11 +51,14 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         }
     }
 
-    public SpannableAdapter(Context context, TwoWayView recyclerView, int COUNT) {
+    public SpannableAdapter(Context context, TwoWayView recyclerView, String date, int size) {
         // <<초기 구성요소 init>>
+        dao = new PhotoDBHelper(HomeActivity.getAppContext());
         mContext = context;
-        mItems = new ArrayList<Integer>(3);
-        for (int i = 0; i < 3; i++) {
+        this.size = size;
+        this.date = date;
+        mItems = new ArrayList<Integer>(size);
+        for (int i = 0; i < size; i++) {
             if (i <= MAX_ITEM - 1) {
                 addItem(i);
             }
@@ -83,14 +92,26 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
 
         // 테스트를 위한 아이템 배치 방식
-        holder.title.setText(mItems.get(position).toString());
+//        holder.title.setText(mItems.get(position).toString());
+
+
+        if (position == 0){
+            holder.title.setText(date);
+        }
+
+
+
+
+
+
+
+
 
 //        boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
 //        boolean isVertical = true;
         final View itemView = holder.itemView;
 
         final int itemId = mItems.get(position);
-//        System.out.println("*********"+ mItems +"*********");
 
         final SpannableGridLayoutManager.LayoutParams lp =
                 (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
@@ -100,15 +121,15 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
 
         if (mItems.size() == 1) {
 
-            final int one_colSpan = 3;
-            final int one_rowSpan = 2;
+            final int one_colSpan = 6;
+            final int one_rowSpan = 4;
             lp.rowSpan = one_rowSpan;
             lp.colSpan = one_colSpan;
             itemView.setLayoutParams(lp);
 
         } else if (mItems.size() == 2) {
-            final int two_colSpan = 2;
-            final int two_rowSpan = 2;
+            final int two_colSpan = 3;
+            final int two_rowSpan = 4;
 
             lp.rowSpan = two_rowSpan;
             lp.colSpan = two_colSpan;
@@ -119,8 +140,8 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
             final int three_span1;
             final int three_span2;
 
-            three_span1 = (itemId == 3 || itemId == 2 ? 1 : 2);
-            three_span2 = (itemId == 3 || itemId == 2 ? 1 : 2);
+            three_span1 = (itemId == 3 || itemId == 2 ? 2 : 4);
+            three_span2 = (itemId == 3 || itemId == 2 ? 2 : 4);
 
             lp.rowSpan = three_span1;
             lp.colSpan = three_span2;

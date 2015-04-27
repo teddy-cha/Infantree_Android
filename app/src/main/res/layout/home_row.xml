@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="340dp"
             app:twowayview_layoutManager="SpannableGridLayoutManager"
-            app:twowayview_numColumns="3"
-            app:twowayview_numRows="2" />
+            app:twowayview_numColumns="6"
+            app:twowayview_numRows="4" />
 
     </RelativeLayout>
 
