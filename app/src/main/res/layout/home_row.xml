@@ -15,7 +15,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/spannable_grid"
             android:layout_width="match_parent"
-            android:layout_height="340dp"
+            android:layout_height="220dp"
             app:twowayview_layoutManager="SpannableGridLayoutManager"
             app:twowayview_numColumns="6"
             app:twowayview_numRows="4" />

@@ -5,6 +5,8 @@ package com.connection.next.infantree.home;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import org.lucasr.twowayview.TwoWayLayoutManager;
 import org.lucasr.twowayview.widget.TwoWayView;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +39,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     private int size;
     private String date;
     private PhotoDBHelper dao;
-    private ArrayList<PhotoModel> photoModelArrayList;
+    private ArrayList<String> photoModelArrayList;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
@@ -57,6 +60,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         mContext = context;
         this.size = size;
         this.date = date;
+        photoModelArrayList = dao.getPhotoListByDate(date);
         mItems = new ArrayList<Integer>(size);
         for (int i = 0; i < size; i++) {
             if (i <= MAX_ITEM - 1) {
@@ -70,8 +74,8 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     public void addItem(int position) {
         if (mItems != null) {
             mCurrentItemId += 1;
-            final int id = mCurrentItemId;
-            mItems.add(position, id);
+            final int itemId = mCurrentItemId;
+            mItems.add(position, itemId);
         }
         notifyItemInserted(position);
     }
@@ -90,13 +94,15 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
-
         final View itemView = holder.itemView;
-
         final int itemId = mItems.get(position);
-
         final SpannableGridLayoutManager.LayoutParams lp =
                 (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
+
+        String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(img_path);
+        holder.image.setImageBitmap(bitmap);
 
         if (position == 0){
             holder.title.setText(date);
