@@ -66,7 +66,9 @@ public class PhotoDBHelper {
                     e.printStackTrace();
                 }
 
-                if (!isEmptyId(_id)) {
+                Log.i("json is " + date, _id);
+
+                if (isEmptyId(_id) == 1) {
                     Log.i("sql has ", _id);
                 } else {
                     String sql = "INSERT INTO Photos(_id, date) values('" + _id + "', '" + sqlDate + "');";
@@ -85,12 +87,14 @@ public class PhotoDBHelper {
         }
     }
 
-    public boolean isEmptyId(String _id) {
+    public int isEmptyId(String _id) {
         String sql = "SELECT * FROM Photos WHERE _id = '" + _id + "';";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToNext();
 
-        boolean isNull = cursor.isNull(0);
+        int isNull = cursor.getCount();
+        System.out.println ("************   " + isNull);
+        cursor.close();
         return isNull;
     }
 

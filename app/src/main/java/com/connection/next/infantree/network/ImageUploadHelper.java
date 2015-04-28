@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.connection.next.infantree.db.PhotoDBHelper;
+import com.connection.next.infantree.home.HomeActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -23,12 +25,16 @@ public class ImageUploadHelper {
 
     private final Context context;
     private static AsyncHttpClient client = new AsyncHttpClient();
+    private PhotoDBHelper dao;
+    private Proxy proxy;
 
     public ImageUploadHelper(Context context) {
         this.context = context;
     }
 
     public void uploadImageFile(final ArrayList<String> imagePaths) {
+
+        dao = new PhotoDBHelper(HomeActivity.getAppContext());
 
         RequestParams params = new RequestParams();
 
