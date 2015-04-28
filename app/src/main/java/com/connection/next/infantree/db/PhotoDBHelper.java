@@ -3,7 +3,6 @@ package com.connection.next.infantree.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.connection.next.infantree.model.PhotoModel;
@@ -13,8 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,7 +48,7 @@ public class PhotoDBHelper {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
 
-            for (int i=0; i < jsonArray.length(); ++i){
+            for (int i=0; i < jsonArray.length(); ++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 _id = jsonObject.getString("_id");
@@ -69,18 +66,32 @@ public class PhotoDBHelper {
                     e.printStackTrace();
                 }
 
-                String sql = "INSERT INTO Photos(_id, date) values('" + _id + "', '" + sqlDate + "');";
+                if (!isEmptyId(_id)) {
+                    Log.i("sql has ", _id);
+                } else {
+                    String sql = "INSERT INTO Photos(_id, date) values('" + _id + "', '" + sqlDate + "');";
 
-                try {
-                    database.execSQL(sql);
-                } catch (Exception e){
-                    e.printStackTrace();
+                    try {
+                        database.execSQL(sql);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//                    imageDownloadHelper.downloadImageFile("http://125.209.194.223:3000/image?_id=" + _id, _id);
                 }
                 imageDownloadHelper.downloadImageFile("http://125.209.194.223:3000/image?_id=" + _id, _id);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isEmptyId(String _id) {
+        String sql = "SELECT * FROM Photos WHERE _id = '" + _id + "';";
+        Cursor cursor = database.rawQuery(sql, null);
+        cursor.moveToNext();
+
+        boolean isNull = cursor.isNull(0);
+        return isNull;
     }
 
     public int getDateCounts() {

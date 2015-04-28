@@ -54,7 +54,7 @@ public class ImageUploadHelper {
                         File targetFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), idFromServer);
                         File originalFile = new File(imagePaths.get(i));
                         originalFile.renameTo(targetFile); // 이름 바꿔줌
-                        Log.e("upload" + i, idFromServer);
+                        Log.i("upload" + i, idFromServer);
                         // TODO: imageDB에 넣어주기 or 서버에서 갱신해오기
                     } catch (JSONException e) {
                         e.printStackTrace();

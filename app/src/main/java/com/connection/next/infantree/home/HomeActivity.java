@@ -1,6 +1,7 @@
 package com.connection.next.infantree.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -50,6 +51,11 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
         UserModel test_model = new UserModel("1004", "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
 
+//        화면에 보여줄 사진들의 구성요소
+        Intent syncIntent = new Intent("com.connection.next.infantree.network.SyncDataService");
+        syncIntent.setPackage("com.connection.next.infantree");
+        startService(syncIntent);
+
 //        Time Line
 
         recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
@@ -85,6 +91,10 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
                 super.onDrawerClosed(drawerView);
             }
         };
+
+//        Intent syncIntent = new Intent("com.connection.next.infantree.network.SyncDataService");
+//        syncIntent.setPackage("com.connection.next.infantree");
+//        startService(syncIntent);
 
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
