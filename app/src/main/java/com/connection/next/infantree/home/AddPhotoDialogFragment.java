@@ -69,6 +69,7 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
                 }
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
                 // Ensure that there's a camera activity to handle the intent
                 if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                     // Create the File where the photo should go
@@ -150,7 +151,7 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
         // dismiss를 해줘야 한다. 이것 때문에 한참 헤맸다...ㅠㅠ
     }
 
-    private String currentPhotoPath;
+    private String currentPhotoPath; // TODO: 이부분 바꿀것
 
     private File createImageFile() throws IOException {
         // Create an image file name
