@@ -5,10 +5,9 @@ package com.connection.next.infantree.home;
  */
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,9 +42,6 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     private PhotoDBHelper dao;
     private ArrayList<String> photoModelArrayList;
 
-    private Cursor cursor;
-    private SharedPreferences pref;
-
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         public final ImageView image;
@@ -59,7 +55,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         }
     }
 
-    public SpannableAdapter(Context context,TwoWayView recyclerView, String date, int size) {
+    public SpannableAdapter(Context context, TwoWayView recyclerView, String date, int size) {
         // <<초기 구성요소 init>>
         dao = new PhotoDBHelper(HomeActivity.getAppContext());
         mContext = context;
@@ -105,6 +101,9 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
                 (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
 
         String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
+//        String img_path = HomeActivity.getAppContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + "/" + photoModelArrayList.get(position);
+
+
 
         Bitmap bitmap = BitmapFactory.decodeFile(img_path);
         holder.image.setImageBitmap(bitmap);
@@ -117,6 +116,8 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         //   아이템 갯수에 따른 배치방식
 
         if (mItems.size() == 1) {
+
+
             final int one_colSpan = 6;
             final int one_rowSpan = 4;
             lp.rowSpan = one_rowSpan;

@@ -1,6 +1,7 @@
 package com.connection.next.infantree.network;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
@@ -62,6 +63,7 @@ public class ImageUploadHelper {
                         originalFile.renameTo(targetFile); // 이름 바꿔줌
                         Log.i("upload" + i, idFromServer);
                         // TODO: imageDB에 넣어주기 or 서버에서 갱신해오기
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

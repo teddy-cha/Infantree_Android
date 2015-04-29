@@ -51,11 +51,6 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
         UserModel test_model = new UserModel("1004", "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
 
-//        화면에 보여줄 사진들의 구성요소
-        Intent syncIntent = new Intent("com.connection.next.infantree.network.SyncDataService");
-        syncIntent.setPackage("com.connection.next.infantree");
-        startService(syncIntent);
-
 //        Time Line
 
         recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
@@ -101,11 +96,26 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
         floatingButton = (ButtonFloat) findViewById(R.id.floating_add_button);
         floatingButton.setOnClickListener(this);
+
+
     }
 
     @Override
     public void onClick(View v) {
         new AddPhotoDialogFragment().show(getSupportFragmentManager(), "add_photo");
+    }
+
+    // 임시적으로 이용하는 함수.. -> 나중에도 사용가능한 건가?
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        homeAdapter = new HomeAdapter(R.layout.home_row, this);
+        recyclerView.setAdapter(homeAdapter);
+
     }
 
     @Override

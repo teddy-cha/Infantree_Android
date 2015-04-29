@@ -1,6 +1,7 @@
 package com.connection.next.infantree.network;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -24,6 +25,10 @@ public class ImageDownloadHelper {
 
     public void downloadImageFile(String fileUrl, String file_id) {
         final File filePath = new File(context.getFilesDir().getPath() + "/" + file_id);
+
+
+//        final File filePath = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + "/" + file_id);
+
 
         Log.i("isFileExist", filePath.exists() + " " + filePath.getAbsolutePath());
 

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.connection.next.infantree" >
     <uses-permission android:name="android.permission.INTERNET" />
-    <user-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <user-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18"/>
     <application
@@ -20,14 +19,6 @@
             </intent-filter>
         </service>
 
-        <provider
-            android:authorities="com.connection.next.infantree.provider"
-            android:name=".provider.PhotoProvider"
-            android:enabled="true"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            android:readPermission="com.connection.next.infantree.READ"
-            android:writePermission="com.connection.next.infantree.WRITE" />
 
         <activity
             android:name="com.connection.next.infantree.home.HomeActivity"
