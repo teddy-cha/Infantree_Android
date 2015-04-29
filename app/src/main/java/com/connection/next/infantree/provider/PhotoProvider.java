@@ -1,12 +1,15 @@
 package com.connection.next.infantree.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.provider.ContactsContract;
+import android.text.TextUtils;
 
 import java.util.Locale;
 
@@ -55,7 +58,31 @@ public class PhotoProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+        switch (URI_MATCHER.match(uri)) {
+            case PHOTO_LIST:
+                if(TextUtils.isEmpty(sortOrder)) {
+                    sortOrder = PhotoContract.Photos.SORT_ORDER_DEFAULT;
+                }
+                break;
+            case PHOTO_ID:
+                if(TextUtils.isEmpty(sortOrder)) {
+                    sortOrder = PhotoContract.Photos.SORT_ORDER_DEFAULT;
+                }
+                if(selection == null) {
+                    selection = "_ID = ?";
+                    selectionArgs = new String[] {
+                            uri.getLastPathSegment()
+                    };
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported URI : "+ uri);
+        }
+
+        Cursor cursor = database.query(TABLE_NAME, PhotoContract.Photos.PROJECTION_ALL, selection,
+                selectionArgs, null, null, sortOrder);
+
+        return cursor;
     }
 
     @Override
@@ -67,6 +94,14 @@ public class PhotoProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         if (URI_MATCHER.match(uri) != PHOTO_LIST) {
             throw new IllegalArgumentException("Insertion을 지원하지 않는 URI입니다. URI : " + uri);
+        }
+
+        if (URI_MATCHER.match(uri) == PHOTO_LIST) {
+            long id = database.insert("Photos", null, values);
+            Uri itemUri = ContentUris.withAppendedId(uri, id);
+            getContext().getContentResolver().notifyChange(itemUri, null);
+
+            return itemUri;
         }
         return null;
     }

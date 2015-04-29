@@ -5,6 +5,8 @@ package com.connection.next.infantree.home;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,9 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     private PhotoDBHelper dao;
     private ArrayList<String> photoModelArrayList;
 
+    private Cursor cursor;
+    private SharedPreferences pref;
+
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         public final ImageView image;
@@ -54,7 +59,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         }
     }
 
-    public SpannableAdapter(Context context, TwoWayView recyclerView, String date, int size) {
+    public SpannableAdapter(Context context,TwoWayView recyclerView, String date, int size) {
         // <<초기 구성요소 init>>
         dao = new PhotoDBHelper(HomeActivity.getAppContext());
         mContext = context;
@@ -112,8 +117,6 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         //   아이템 갯수에 따른 배치방식
 
         if (mItems.size() == 1) {
-
-
             final int one_colSpan = 6;
             final int one_rowSpan = 4;
             lp.rowSpan = one_rowSpan;
