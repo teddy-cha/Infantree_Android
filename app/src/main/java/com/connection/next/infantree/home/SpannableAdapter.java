@@ -101,6 +101,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
 
         String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
 
+        img_path = mContext.getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
         Bitmap bitmap = BitmapFactory.decodeFile(img_path);
         holder.image.setImageBitmap(bitmap);
 
