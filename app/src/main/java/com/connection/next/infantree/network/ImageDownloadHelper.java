@@ -3,8 +3,10 @@ package com.connection.next.infantree.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.connection.next.infantree.util.ServerUrls;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 
 import org.apache.http.Header;
 
@@ -16,19 +18,19 @@ import java.io.File;
 public class ImageDownloadHelper {
 
     private final Context context;
-    private static AsyncHttpClient client = new AsyncHttpClient();
+    private static SyncHttpClient client = new SyncHttpClient();
 
     public ImageDownloadHelper(Context context) {
         this.context = context;
     }
 
-    public void downloadImageFile(String fileUrl, String file_id) {
-        final File filePath = new File(context.getFilesDir().getPath() + "/" + file_id);
+    public void downloadImageFile(String photoId) {
+        final File filePath = new File(context.getFilesDir().getPath() + "/" + photoId);
 
         Log.i("isFileExist", filePath.exists() + " " + filePath.getAbsolutePath());
 
         if (!filePath.exists()) {
-            client.get(fileUrl, new FileAsyncHttpResponseHandler(context) {
+            client.get(ServerUrls.getPhotoFile + photoId, new FileAsyncHttpResponseHandler(context) {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                     Log.i("ImageDownloadHelper", "file:");

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.connection.next.infantree" >
+
     <user-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <user-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18"/>
-    <user-permission android:name="android.permission.INTERNET"/>
+    <user-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <user-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,21 +14,30 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <provider
+            android:name=".provider.InfantreeProvider"
             android:authorities="com.connection.next.infantree.provider"
-            android:name=".provider.PhotoProvider"
             android:enabled="true"
             android:exported="true"
             android:grantUriPermissions="true"
             android:readPermission="com.connection.next.infantree.provider.READ"
             android:writePermission="com.connection.next.infantree.provider.WRITE" />
+
         <activity
-            android:name="com.connection.next.infantree.home.HomeActivity"
+            android:name=".home.HomeActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".home.SeeAllPhotoActivity"
+            android:label="@string/title_activity_see_all_photo" >
+        </activity>
+        <activity
+            android:name=".home.SeeDiaryActivity"
+            android:label="@string/title_activity_see_diary" >
         </activity>
     </application>
 

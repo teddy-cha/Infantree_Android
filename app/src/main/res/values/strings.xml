@@ -4,4 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="open_drawer">Drawer opened!</string>
     <string name="close_drawer">Drawer closed!</string>
+    <string name="title_activity_see_all_photo">SeeAllPhotoActivity</string>
+    <string name="title_activity_see_diary">SeeDiaryActivity</string>
 </resources>

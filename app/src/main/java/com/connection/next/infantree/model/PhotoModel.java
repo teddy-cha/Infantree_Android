@@ -7,12 +7,12 @@ public class PhotoModel {
 
     private int Photo_Id;
     private String Photo_Path;
-    private String date;
+    private String Date;
 
-    public PhotoModel(int Photo_Id, String Photo_Path, String date) {
+    public PhotoModel(int Photo_Id, String Photo_Path, String Date) {
         this.Photo_Id = Photo_Id;
         this.Photo_Path = Photo_Path;
-        this.date = date;
+        this.Date = Date;
     }
 
     public int getPhoto_Id() {
@@ -24,6 +24,6 @@ public class PhotoModel {
     }
 
     public String getDate() {
-        return date;
+        return Date;
     }
 }

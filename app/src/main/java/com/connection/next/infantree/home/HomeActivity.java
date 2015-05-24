@@ -1,5 +1,6 @@
 package com.connection.next.infantree.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -8,14 +9,18 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.db.ProviderDBHelper;
 import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
 import com.connection.next.infantree.model.UserModel;
+import com.connection.next.infantree.network.Proxy;
+import com.connection.next.infantree.util.ServerUrls;
 import com.gc.materialdesign.views.ButtonFloat;
 
-// ActionBarActivity -> appcompat 사용
 public class HomeActivity extends ActionBarActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
@@ -86,10 +91,36 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
         floatingButton = (ButtonFloat) findViewById(R.id.floating_add_button);
         floatingButton.setOnClickListener(this);
+
+        ((Button) findViewById(R.id.see_all_photos_button)).setOnClickListener(this);
+        ((Button) findViewById(R.id.see_diary_button)).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        new AddPhotoDialogFragment().show(getSupportFragmentManager(), "add_photo");
+        switch (v.getId()) {
+            case R.id.floating_add_button:
+                new AddPhotoDialogFragment().show(getSupportFragmentManager(), "add_photo");
+                break;
+            case R.id.see_all_photos_button:
+                Intent allPhotoIntent = new Intent(this, SeeAllPhotoActivity.class);
+                // allPhotoIntent.putExtra("WhichDate", "2015/03/15");
+                startActivity(allPhotoIntent);
+                break;
+            case R.id.see_diary_button:
+                // db check 있나 없나 확인하고
+                // 있으면 seeDiaryActivity로
+                // 없으면 writeDiaryActivity로
+
+                // date 가져오는 부분
+                // 일단 여기서 가져와본다
+
+                String date = "2015/05/18 20:16:10"; // photo db엔 이렇게 들어가있음 - 그냥 이대로 넣어주면 된다 바꿔주는 로직은 안에 있음
+
+                Intent diaryIntent = new Intent(this, SeeDiaryActivity.class);
+                diaryIntent.putExtra("Date", date);
+                startActivity(diaryIntent);
+                break;
+        }
     }
 }
