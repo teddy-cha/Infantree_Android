@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.connection.next.infantree.home.SeeDiaryActivity"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/home_toolbar" />
+
+    <ImageView
+        android:id="@+id/see_diary_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/cc"/>
+
+    <include
+        android:id="@+id/see_diary_mom_diary_layout"
+        layout="@layout/diary_item" />
+
+    <include
+        android:id="@+id/see_diary_dad_diary_layout"
+        layout="@layout/diary_item" />
+
+</LinearLayout>
