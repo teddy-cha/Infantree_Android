@@ -16,13 +16,10 @@ import android.widget.TextView;
 
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.PhotoDBHelper;
-import com.connection.next.infantree.model.PhotoModel;
 
-import org.lucasr.twowayview.TwoWayLayoutManager;
 import org.lucasr.twowayview.widget.TwoWayView;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +57,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         mContext = context;
         this.size = size;
         this.date = date;
-        photoModelArrayList = dao.getPhotoListByDate(date);
+        photoModelArrayList = dao.getPhotoListByDateOfThree(date);
         mItems = new ArrayList<Integer>(size);
         for (int i = 0; i < size; i++) {
             if (i <= MAX_ITEM - 1) {
@@ -100,10 +97,21 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
                 (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
 
         String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
+//        String img_path = HomeActivity.getAppContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + "/" + photoModelArrayList.get(position);
 
-        img_path = mContext.getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
+
+
         Bitmap bitmap = BitmapFactory.decodeFile(img_path);
+
         holder.image.setImageBitmap(bitmap);
+
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inSampleSize = 4;
+//        options.inPurgeable = true;
+//
+//        Bitmap bitmap = BitmapFactory.decodeFile(img_path, options);
+//        Bitmap resized = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+//        holder.image.setImageBitmap(resized);
 
         if (position == 0){
             holder.title.setText(date);

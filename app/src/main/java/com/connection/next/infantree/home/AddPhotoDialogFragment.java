@@ -29,6 +29,13 @@ import java.util.Date;
 
 /**
  * Created by viz on 15. 4. 20..
+ *
+ * TODO
+ * Code Refactoring
+ * 만약에 인터넷이 연결되지 않은 상태라면, 어떻게 해야할 건지를 정해야함.
+ * 사진을 추가할 때 앱 내부 DB에 우선적으로 넣고 나서 이후에 인터넷이 연결된
+ * 상태라면 주기적으로 디비 정보와 일치하는지를 확인하는 코드를 넣어야할 듯함.
+ *
  */
 public class AddPhotoDialogFragment extends DialogFragment implements View.OnClickListener {
 

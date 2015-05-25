@@ -1,21 +1,23 @@
 package com.connection.next.infantree.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.model.PhotoModel;
+import com.connection.next.infantree.photos.FullImageActivity;
 
+import org.lucasr.twowayview.ItemClickSupport;
 import org.lucasr.twowayview.widget.TwoWayView;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -27,16 +29,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private int rowLayout;
     private Context mContext;
     private int COUNT;
+    private int TOTAL;
     private PhotoDBHelper dao;
     private ArrayList<PhotoModel> photoList;
     private ArrayList<String> photoListByDate;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TwoWayView spannable;
+        Button allPhotosButton;
+        Button diaryButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             spannable = (TwoWayView) itemView.findViewById(R.id.spannable_grid);
+            this.allPhotosButton = (Button) itemView.findViewById(R.id.see_all_photos_button);
+            this.diaryButton = (Button) itemView.findViewById(R.id.see_diary_button);
         }
     }
 
@@ -44,8 +51,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         dao = new PhotoDBHelper(HomeActivity.getAppContext());
         this.rowLayout = rowLayout;
         this.mContext = context;
-        COUNT = dao.getDateCounts();
+        TOTAL = dao.getDateCounts();
         photoList = dao.getPhotoList();
+        COUNT=TOTAL;
     }
 
     @Override
@@ -55,14 +63,46 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        String date = photoList.get(position).getDate();
-        photoListByDate = dao.getPhotoListByDate(date);
+        final String date = photoList.get(position).getDate();
+        photoListByDate = dao.getPhotoListByDateOfThree(date);
         System.out.println("photoListByDate : " + photoListByDate);
         int size = photoListByDate.size();
         holder.spannable.setAdapter(new SpannableAdapter(mContext, holder.spannable, date, size));
         Log.i("Data is ",date);
+
+        holder.allPhotosButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, date + "'s all Photos", Toast.LENGTH_SHORT).show();
+                Intent allPhotosIntent = new Intent("com.connection.next.infantree.photos.AllPhotosActivity");
+                allPhotosIntent.putExtra("date", date);
+                mContext.startActivity(allPhotosIntent);
+
+            }
+        });
+
+        holder.diaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, date + "'s diary", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final ItemClickSupport itemClick = ItemClickSupport.addTo(holder.spannable);
+
+        itemClick.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerView recyclerView, View view, int i, long l) {
+                Toast.makeText(mContext, date + "'s " + i, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent("com.connection.next.infantree.photos.FullImageActivity");
+                // passing array index
+                intent.putExtra("id", i);
+                intent.putExtra("date", date);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     public int getItemCount() {

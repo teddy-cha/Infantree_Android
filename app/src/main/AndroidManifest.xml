@@ -9,12 +9,39 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <service
+            android:name=".network.SyncDataService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.connection.next.infantree.network.SyncDataService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+
         <activity
             android:name="com.connection.next.infantree.home.HomeActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".photos.AllPhotosActivity"
+            android:label="AllPhotosActivity" >
+            <intent-filter>
+                <action android:name="com.connection.next.infantree.photos.AllPhotosActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".photos.FullImageActivity"
+            android:label="FullImageActivity" >
+            <intent-filter>
+                <action android:name="com.connection.next.infantree.photos.FullImageActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

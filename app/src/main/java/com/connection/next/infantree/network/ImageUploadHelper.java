@@ -1,9 +1,12 @@
 package com.connection.next.infantree.network;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
+import com.connection.next.infantree.db.PhotoDBHelper;
+import com.connection.next.infantree.home.HomeActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -23,12 +26,16 @@ public class ImageUploadHelper {
 
     private final Context context;
     private static AsyncHttpClient client = new AsyncHttpClient();
+    private PhotoDBHelper dao;
+    private Proxy proxy;
 
     public ImageUploadHelper(Context context) {
         this.context = context;
     }
 
     public void uploadImageFile(final ArrayList<String> imagePaths) {
+
+        dao = new PhotoDBHelper(HomeActivity.getAppContext());
 
         RequestParams params = new RequestParams();
 
@@ -54,8 +61,9 @@ public class ImageUploadHelper {
                         File targetFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), idFromServer);
                         File originalFile = new File(imagePaths.get(i));
                         originalFile.renameTo(targetFile); // 이름 바꿔줌
-                        Log.e("upload" + i, idFromServer);
+                        Log.i("upload" + i, idFromServer);
                         // TODO: imageDB에 넣어주기 or 서버에서 갱신해오기
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

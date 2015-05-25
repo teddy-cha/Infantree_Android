@@ -1,6 +1,7 @@
 package com.connection.next.infantree.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.model.UserModel;
+import com.connection.next.infantree.network.SyncDataService;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -46,11 +48,24 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.home_main);
         HomeActivity.context = getApplicationContext();
 
-//        Navigation Bar 에 사용할 Data Model에 대한 값을 미리 설정
+
+        // ------------------------------------------------
+        // Sync Data Setting
+        // ------------------------------------------------
+
+//        Intent syncIntent = new Intent(context, SyncDataService.class);
+//        startService(syncIntent);
+
+
+        // ------------------------------------------------
+        // Navigation Bar 에 사용할 Data Model에 대한 값 설정
+        // ------------------------------------------------
 
         UserModel test_model = new UserModel("1004", "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
 
-//        Time Line
+        // ------------------------------------------------
+        // Time Line
+        // ------------------------------------------------
 
         recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,12 +73,14 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
         homeAdapter = new HomeAdapter(R.layout.home_row, this);
         recyclerView.setAdapter(homeAdapter);
 
-//         Tool Bar
-//         Action Bar 설정 및 Navigation Bar
+        // ------------------------------------------------
+        // Tool Bar
+        // Action Bar 설정 및 Navigation Bar
+        // ------------------------------------------------
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar); // 툴바를 액션바로 설정함
-        getSupportActionBar().setDisplayShowTitleEnabled(false); // 기본 액션바 타이틀 안 나오게 함, 타이틀을 툴바에서 처리
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -91,12 +108,27 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
         floatingButton = (ButtonFloat) findViewById(R.id.floating_add_button);
         floatingButton.setOnClickListener(this);
+
+
     }
 
     @Override
     public void onClick(View v) {
         new AddPhotoDialogFragment().show(getSupportFragmentManager(), "add_photo");
     }
+
+    // 임시적으로 이용하는 함수.. -> 나중에도 사용가능한 건가?
+
+//    @Override
+//    public void onRestart(){
+//        super.onRestart();
+//        recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        homeAdapter = new HomeAdapter(R.layout.home_row, this);
+//        recyclerView.setAdapter(homeAdapter);
+//
+//    }
 
     @Override
     public void onResume() {
