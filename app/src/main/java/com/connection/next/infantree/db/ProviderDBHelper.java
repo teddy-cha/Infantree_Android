@@ -33,6 +33,9 @@ public class ProviderDBHelper {
 
         try {
             JSONObject diaryJson = new JSONObject(jsonData);
+            if (!diaryJson.isNull("_id")){
+                return;
+            }
 
             Diary_Id = diaryJson.getString("_id");
 
@@ -52,6 +55,7 @@ public class ProviderDBHelper {
 
             Log.e(TAG, InfantreeContract.Diaries.CONTENT_URI.toString());
             context.getContentResolver().insert(InfantreeContract.Diaries.CONTENT_URI, values);
+
         } catch (Exception e) {
             Log.e(TAG, "JSON ERROR: " + e);
             e.printStackTrace();

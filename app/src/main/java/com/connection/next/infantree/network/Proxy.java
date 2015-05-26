@@ -22,7 +22,7 @@ public class Proxy {
 
     public static String getJSON(String requestUrl) {
         try {
-            Log.e(TAG, "REQUEST URL: " + requestUrl);
+            Log.i(TAG, "REQUEST URL: " + requestUrl);
 
             URL url = new URL(requestUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

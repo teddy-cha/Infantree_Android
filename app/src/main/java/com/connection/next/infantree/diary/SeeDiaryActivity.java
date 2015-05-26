@@ -1,6 +1,5 @@
 package com.connection.next.infantree.diary;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,6 +42,7 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
     private Button momOkayButton;
     private Button momCancelButton;
     private CircleImageView momCircleImage;
+    private TextView todaySelectText;
 
     private RelativeLayout dadLayout;
     private TextView dadDiaryTextView;
@@ -57,12 +57,10 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.see_diary);
 
-//        String originalDate = getIntent().getStringExtra("date");
-        String originalDate = "2015-05-15";
-        currentDiaryDate = originalDate;
-//        currentDiaryDate = (originalDate.split(" "))[0]; // "2015/05/15"
+        String originalDate = getIntent().getStringExtra("date");
+        currentDiaryDate = originalDate.replace('-', '/'); // "2015/05/15"
 //        currentDiaryDate = originalDate; // "2015/05/15"
-        final String convertedDate = currentDiaryDate; // "2015-05-15"
+        final String convertedDate = originalDate;// "2015-05-15"
 //        final String convertedDate = originalDate; // "2015-05-15"
 
 
@@ -74,7 +72,7 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
             @Override
             public void run() {
                 super.run();
-                String json = Proxy.getJSON(ServerUrls.getDiaryByDate + convertedDate);
+                String json = Proxy.getJSON(ServerUrls.getDiaryByDate + currentDiaryDate);
                 new ProviderDBHelper(SeeDiaryActivity.this).insertDiaryJsonData(json);
             }
         };
@@ -91,18 +89,21 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
         String photoId = null;
         String momDiary = null;
         String dadDiary = null;
-        if (c != null) {
+        if (c.getCount() != 0) {
             // db에서 데이터 가져오기
+
             c.moveToFirst();
             photoId = c.getString(c.getColumnIndex(InfantreeContract.Diaries.PHOTO_ID));
             momDiary = c.getString(c.getColumnIndex(InfantreeContract.Diaries.MOM_DIARY));
             dadDiary = c.getString(c.getColumnIndex(InfantreeContract.Diaries.DAD_DIARY));
         }
+
         imageView = (ImageView) findViewById(R.id.see_diary_image_view);
 
         momLayout = (RelativeLayout) findViewById(R.id.see_diary_mom_diary_layout);
         dadLayout = (RelativeLayout) findViewById(R.id.see_diary_dad_diary_layout);
 
+        todaySelectText = (TextView) findViewById(R.id.today_text);
         // 일단 엄마 것부터
         momDiaryTextView = (TextView) momLayout.findViewById(R.id.see_diary_text_view);
         momEditButton = (Button) momLayout.findViewById(R.id.see_diary_edit_button);
@@ -127,6 +128,8 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
         // 이미지 설정 - photoid 없으면, 오늘의 사진 설정 안 되있으면 아무것도 안해줘도 됨
         final String photo_Id = photoId;
         if (photo_Id != null) {
+
+            todaySelectText.setText("");
             final String imagePath = this.getFilesDir().getPath() + "/" + photoId;
             File imageFilePath = new File(imagePath);
             if (!imageFilePath.exists()) {
@@ -150,6 +153,9 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
             WeakReference<ImageView> imageViewReference = new WeakReference<>(imageView);
             Bitmap bm = BitmapFactory.decodeFile(imagePath);
             imageViewReference.get().setImageBitmap(bm);
+        }else {
+            todaySelectText.setText("오늘의 사진을 등록해주세요");
+            imageView.setImageResource(R.drawable.todayphoto);
         }
 
         momCircleImage.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.mom));

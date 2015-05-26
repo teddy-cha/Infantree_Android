@@ -3,17 +3,31 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="com.connection.next.infantree.home.SeeDiaryActivity"
-android:orientation="vertical">
+android:orientation="vertical"
+android:background="@color/text_primary">
 
 <include
     android:id="@+id/tool_bar"
     layout="@layout/home_toolbar" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
 <ImageView
     android:id="@+id/see_diary_image_view"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:background="@drawable/cc"/>
+    android:layout_height="250dp"/>
+    <TextView
+        android:id="@+id/today_text"
+        android:layout_width="match_parent"
+        android:layout_height="237dp"
+        android:gravity="center|bottom"
+        android:textColor="@color/ColorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="17sp"/>
+
+    </FrameLayout>
 
 <include
     android:id="@+id/see_diary_mom_diary_layout"
