@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.connection.next.infantree.db.PhotoDBHelper;
 import org.lucasr.twowayview.widget.TwoWayView;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +40,11 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     private PhotoDBHelper dao;
     private ArrayList<String> photoModelArrayList;
 
+
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         public final ImageView image;
+        public WeakReference<ImageView> imageViewReference;
 
         // <<home_item.xml 구성요소>>
         public SimpleViewHolder(View view) {
@@ -48,6 +52,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
             // <<임시적으로 사용하는 TextView>>
             title = (TextView) view.findViewById(R.id.title);
             image = (ImageView) view.findViewById(R.id.image);
+            imageViewReference = new WeakReference<>(image);
         }
     }
 
@@ -57,6 +62,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         mContext = context;
         this.size = size;
         this.date = date;
+        photoModelArrayList = null;
         photoModelArrayList = dao.getPhotoListByDateOfThree(date);
         mItems = new ArrayList<Integer>(size);
         for (int i = 0; i < size; i++) {
@@ -99,10 +105,10 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
 //        String img_path = HomeActivity.getAppContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + "/" + photoModelArrayList.get(position);
 
-
+        Log.e("lllll position", itemId+"");
+        Log.e("lllll img_path", img_path);
 
         Bitmap bitmap = BitmapFactory.decodeFile(img_path);
-
         holder.image.setImageBitmap(bitmap);
 
 //        BitmapFactory.Options options = new BitmapFactory.Options();
@@ -110,8 +116,14 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
 //        options.inPurgeable = true;
 //
 //        Bitmap bitmap = BitmapFactory.decodeFile(img_path, options);
-//        Bitmap resized = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+//        Bitmap resized = Bitmap.createScaledBitmap(bitmap, 20, 20, true);
 //        holder.image.setImageBitmap(resized);
+
+//        Bitmap bm = BitmapFactory.decodeFile(imagePath);
+//        holder.imageViewReference.get().setImageBitmap(resized);
+
+
+
 
         if (position == 0){
             holder.title.setText(date);

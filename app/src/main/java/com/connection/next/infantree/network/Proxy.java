@@ -1,14 +1,15 @@
 package com.connection.next.infantree.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.connection.next.infantree.util.ServerUrls;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -17,17 +18,13 @@ import java.net.URL;
  */
 public class Proxy {
 
-    private String serverUrl;
-    private Context context;
+    private static String TAG = Proxy.class.getSimpleName();
 
-    public Proxy(Context context) {
-        this.context = context;
-    }
-
-    public String getJSON() {
+    public static String getJSON(String requestUrl) {
         try {
-            serverUrl = "http://125.209.194.223:3000/image?baby_id=1004";
-            URL url = new URL(serverUrl);
+            Log.e(TAG, "REQUEST URL: " + requestUrl);
+
+            URL url = new URL(requestUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             conn.setConnectTimeout(10 * 1000);
@@ -45,13 +42,13 @@ public class Proxy {
             int status = conn.getResponseCode();
             Log.i("test", "ProxyResponseCode: " + status);
 
-            switch(status){
+            switch (status) {
                 case 200:
                 case 201:
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuilder sb = new StringBuilder();
                     String line;
-                    while((line = br.readLine()) != null){
+                    while ((line = br.readLine()) != null) {
                         sb.append(line + "\n");
                     }
                     br.close();
@@ -64,5 +61,20 @@ public class Proxy {
         return null;
     }
 
+    public static void postDiary(String date, String momDiary, String dadDiary, AsyncHttpResponseHandler responseHandler) {
 
+        String baby_id = "1004";
+
+        RequestParams params = new RequestParams();
+        params.put("date", date);
+        params.put("baby_id", baby_id);
+
+        if (dadDiary != null)
+            params.put("dad_diary", dadDiary);
+        if (momDiary != null)
+            params.put("mom_diary", momDiary);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(ServerUrls.postDiary, params, responseHandler);
+    }
 }

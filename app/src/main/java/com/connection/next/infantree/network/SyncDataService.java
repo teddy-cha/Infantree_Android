@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.connection.next.infantree.db.PhotoDBHelper;
+import com.connection.next.infantree.home.HomeActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -29,9 +30,6 @@ public class SyncDataService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        proxy = new Proxy(getApplicationContext());
-        dao = new PhotoDBHelper(getApplicationContext());
     }
 
 //    @Override
@@ -70,9 +68,10 @@ public class SyncDataService extends Service {
             @Override
             public void run() {
 
-                String jsonData = proxy.getJSON();
-                dao.insertJsonData(jsonData);
+//                String jsonData = proxy.getJSON();
+//                dao.insertJsonData(jsonData);
                 Log.i("Sync : ", "Hello");
+
             }
         };
 

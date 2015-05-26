@@ -4,4 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="open_drawer">Drawer opened!</string>
     <string name="close_drawer">Drawer closed!</string>
+    <string name="pref_name">infantree</string>
+    <string name="server_url">ServerUrl</string>
+    <string name="server_url_value">http://125.209.194.223:3000/</string>
+    <string name="baby_id">baby_id</string>
 </resources>

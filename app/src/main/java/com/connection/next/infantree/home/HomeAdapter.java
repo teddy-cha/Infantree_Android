@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -64,9 +65,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+//
+//        if (position == 7){
+//            return;
+//        }
 
         final String date = photoList.get(position).getDate();
         photoListByDate = dao.getPhotoListByDateOfThree(date);
+
         System.out.println("photoListByDate : " + photoListByDate);
         int size = photoListByDate.size();
         holder.spannable.setAdapter(new SpannableAdapter(mContext, holder.spannable, date, size));
@@ -87,6 +93,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, date + "'s diary", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent("com.connection.next.infantree.diary.SeeDiaryActivity");
+                intent.putExtra("date", date);
+                mContext.startActivity(intent);
             }
         });
 

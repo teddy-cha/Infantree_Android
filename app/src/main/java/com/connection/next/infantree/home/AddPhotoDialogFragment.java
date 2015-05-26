@@ -16,7 +16,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.network.ImageUploadHelper;
+import com.connection.next.infantree.network.Proxy;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,6 +43,9 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
 
     private static final int REQUEST_CAMERA_IMAGE = 1;
     private static final int REQUEST_GALLERY_IMAGE = 2;
+
+    private Proxy proxy;
+    private PhotoDBHelper dao;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -122,6 +127,7 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
                     ArrayList<String> singleImagePathList1 = new ArrayList<String>();
                     singleImagePathList1.add(currentPhotoPath);
                     new ImageUploadHelper(getActivity()).uploadImageFile(singleImagePathList1);
+
                     break;
                 case REQUEST_GALLERY_IMAGE:
                     // 파일 하나일 때는 그냥 data.getData()
@@ -144,7 +150,6 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
 
                         new ImageUploadHelper(getActivity()).uploadImageFile(multipleImagePathList);
                     }
-
                     break;
             }
         } else {
@@ -152,6 +157,8 @@ public class AddPhotoDialogFragment extends DialogFragment implements View.OnCli
         }
 
         getDialog().dismiss();
+
+
         // onClick에서 dismiss를 해버리면 startActivity를 호출한 fragment가 닫히기 때문에
         // onActivityResult를 못 받아오는 것 같다. 따라서 반드시 onActivityResult에서 할 일을 다 처리한 다음에
         // dismiss를 해줘야 한다. 이것 때문에 한참 헤맸다...ㅠㅠ

@@ -2,6 +2,7 @@ package com.connection.next.infantree.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +23,7 @@ import com.gc.materialdesign.views.ButtonFloat;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.urqa.clientinterface.URQAController;
 
 import org.apache.http.Header;
 
@@ -41,13 +43,32 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
     ButtonFloat floatingButton;
 
+    private SharedPreferences pref;
+    private String serverUrl;
+    private String babyId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        URQAController.InitializeAndStartSession(getApplicationContext(),"211C55F9");
         setContentView(R.layout.home_main);
         HomeActivity.context = getApplicationContext();
 
+        // ------------------------------------------------
+        // SharedPreferences
+        // ------------------------------------------------
+
+        pref = getSharedPreferences(getResources().getString(R.string.pref_name), MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putString(getResources().getString(R.string.server_url),
+                getResources().getString(R.string.server_url_value));
+        editor.putString(getResources().getString(R.string.baby_id), "1004");
+        editor.commit();
+
+        serverUrl = pref.getString(context.getResources().getString(R.string.server_url), "");
+        babyId = pref.getString(context.getResources().getString(R.string.baby_id), "");
 
         // ------------------------------------------------
         // Sync Data Setting
@@ -61,7 +82,7 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
         // Navigation Bar 에 사용할 Data Model에 대한 값 설정
         // ------------------------------------------------
 
-        UserModel test_model = new UserModel("1004", "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
+        UserModel test_model = new UserModel(babyId, "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
 
         // ------------------------------------------------
         // Time Line
@@ -112,34 +133,41 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
     }
 
+    // ------------------------------------------------
+    // plus button action
+    // ------------------------------------------------
+
     @Override
     public void onClick(View v) {
         new AddPhotoDialogFragment().show(getSupportFragmentManager(), "add_photo");
     }
 
-    // 임시적으로 이용하는 함수.. -> 나중에도 사용가능한 건가?
 
-//    @Override
-//    public void onRestart(){
-//        super.onRestart();
-//        recyclerView = (RecyclerView)findViewById(R.id.home_recycler_view);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        homeAdapter = new HomeAdapter(R.layout.home_row, this);
-//        recyclerView.setAdapter(homeAdapter);
-//
-//    }
+    // ------------------------------------------------
+    // 임시적으로 사용하는 함수
+    // ------------------------------------------------
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        recyclerView.setAdapter(homeAdapter);
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         LoadDate();
+        recyclerView.setAdapter(homeAdapter);
     }
-
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    private void LoadDate() {
-        client.get("http://125.209.194.223:3000/image?baby_id=1004", new AsyncHttpResponseHandler() {
+
+    // ------------------------------------------------
+    // serverUrl + "image?baby_id="+ "1004"
+    // 1004 부분은 이후 baby_id로 받아야함.
+    // ------------------------------------------------
+    public void LoadDate() {
+        client.get(serverUrl + "image?baby_id="+ babyId, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 PhotoDBHelper dao = new PhotoDBHelper(getApplicationContext());

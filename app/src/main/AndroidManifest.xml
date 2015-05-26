@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.connection.next.infantree" >
+    <user-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <user-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -18,6 +20,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name=".provider.InfantreeProvider"
+            android:authorities="com.connection.next.infantree.provider"
+            android:enabled="true"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:readPermission="com.connection.next.infantree.provider.READ"
+            android:writePermission="com.connection.next.infantree.provider.WRITE" />
 
 
         <activity
@@ -41,6 +52,14 @@
             android:label="FullImageActivity" >
             <intent-filter>
                 <action android:name="com.connection.next.infantree.photos.FullImageActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".diary.SeeDiaryActivity"
+            android:label="SeeDiaryActivity" >
+            <intent-filter>
+                <action android:name="com.connection.next.infantree.diary.SeeDiaryActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

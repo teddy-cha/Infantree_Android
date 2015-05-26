@@ -2,9 +2,11 @@ package com.connection.next.infantree.network;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
 
+import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.home.HomeActivity;
 import com.loopj.android.http.AsyncHttpClient;
@@ -29,8 +31,16 @@ public class ImageUploadHelper {
     private PhotoDBHelper dao;
     private Proxy proxy;
 
+    private SharedPreferences pref;
+    private String serverUrl;
+    private String babyId;
+
     public ImageUploadHelper(Context context) {
         this.context = context;
+        String prefName = context.getResources().getString(R.string.pref_name);
+        pref = context.getSharedPreferences(prefName, context.MODE_PRIVATE);
+        serverUrl = pref.getString(context.getResources().getString(R.string.server_url), "");
+        babyId = pref.getString(context.getResources().getString(R.string.baby_id), "");
     }
 
     public void uploadImageFile(final ArrayList<String> imagePaths) {
@@ -39,7 +49,7 @@ public class ImageUploadHelper {
 
         RequestParams params = new RequestParams();
 
-        params.put("baby_id", "1004"); // baby_id 들어갈 부분
+        params.put("baby_id", babyId); // baby_id 들어갈 부분
 
         for (int i = 0; i < imagePaths.size(); i++) {
             try {
@@ -50,7 +60,7 @@ public class ImageUploadHelper {
             }
         }
 
-        client.post("http://125.209.194.223:3000/image", params, new JsonHttpResponseHandler() {
+        client.post(serverUrl + "image", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

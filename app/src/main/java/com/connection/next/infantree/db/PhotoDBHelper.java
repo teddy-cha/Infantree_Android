@@ -94,7 +94,6 @@ public class PhotoDBHelper {
         cursor.moveToNext();
 
         int isNull = cursor.getCount();
-        System.out.println ("************   " + isNull);
         cursor.close();
         return isNull;
     }
@@ -106,7 +105,6 @@ public class PhotoDBHelper {
 
         cursor.moveToNext();
         int count = cursor.getCount();
-        System.out.println("Date Count is " + count);
 
         cursor.close();
         return count;
@@ -123,7 +121,6 @@ public class PhotoDBHelper {
         while (cursor.moveToNext()) {
             _id = cursor.getString(1);
             date = cursor.getString(2);
-            System.out.println("Date is " + date);
             photoList.add(new PhotoModel(_id, date));
         }
         cursor.close();
