@@ -10,15 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <org.lucasr.twowayview.widget.TwoWayView
+        <!--<org.lucasr.twowayview.widget.TwoWayView-->
+            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/spannable_grid"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="220dp"-->
+            <!--app:twowayview_layoutManager="SpannableGridLayoutManager"-->
+            <!--app:twowayview_numColumns="6"-->
+            <!--app:twowayview_numRows="4" />-->
+        <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
             xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/spannable_grid"
+            android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            app:twowayview_layoutManager="SpannableGridLayoutManager"
-            app:twowayview_numColumns="6"
-            app:twowayview_numRows="4" />
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 

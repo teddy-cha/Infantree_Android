@@ -15,6 +15,7 @@ import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.model.PhotoModel;
 import com.connection.next.infantree.photos.FullImageActivity;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 
 import org.lucasr.twowayview.ItemClickSupport;
 import org.lucasr.twowayview.widget.TwoWayView;
@@ -39,10 +40,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         public TwoWayView spannable;
         Button allPhotosButton;
         Button diaryButton;
+        public AsymmetricGridView listView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             spannable = (TwoWayView) itemView.findViewById(R.id.spannable_grid);
+            listView = (AsymmetricGridView) itemView.findViewById(R.id.listView);
             this.allPhotosButton = (Button) itemView.findViewById(R.id.see_all_photos_button);
             this.diaryButton = (Button) itemView.findViewById(R.id.see_diary_button);
         }
@@ -65,10 +68,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//
-//        if (position == 7){
-//            return;
-//        }
+
+
+
+        // ------------------------------------------------
+        // 기존 방식 (Twoway-View 이용함.)
+        // ------------------------------------------------
 
         final String date = photoList.get(position).getDate();
         photoListByDate = dao.getPhotoListByDateOfThree(date);
