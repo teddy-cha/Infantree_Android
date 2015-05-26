@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.home.HomeActivity;
-import com.urqa.clientinterface.URQAController;
+// import com.urqa.clientinterface.URQAController;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -40,7 +40,7 @@ public class FullImageActivity extends Activity {
             Bitmap bitmap = BitmapFactory.decodeFile(img_path);
             imageView.setImageBitmap(bitmap);
         } catch (Exception e) {
-            URQAController.SendException(e);
+            // URQAController.SendException(e);
         }
 
         mAttacher = new PhotoViewAttacher(imageView);

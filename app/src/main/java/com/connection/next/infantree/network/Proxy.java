@@ -2,7 +2,6 @@ package com.connection.next.infantree.network;
 
 import android.util.Log;
 
-import com.connection.next.infantree.util.ServerUrls;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -61,20 +60,20 @@ public class Proxy {
         return null;
     }
 
-    public static void postDiary(String date, String momDiary, String dadDiary, AsyncHttpResponseHandler responseHandler) {
-
-        String baby_id = "1004";
+    public static void postDiary(String requestUrl, String baby_id, String date, String parent, String diary, AsyncHttpResponseHandler responseHandler) {
 
         RequestParams params = new RequestParams();
         params.put("date", date);
         params.put("baby_id", baby_id);
 
-        if (dadDiary != null)
-            params.put("dad_diary", dadDiary);
-        if (momDiary != null)
-            params.put("mom_diary", momDiary);
+        if (parent == "dad")
+            params.put("dad_diary", diary);
+        else if (parent == "mom")
+            params.put("mom_diary", diary);
+        else
+            throw new IllegalArgumentException();
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(ServerUrls.postDiary, params, responseHandler);
+        client.post(requestUrl, params, responseHandler);
     }
 }

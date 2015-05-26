@@ -4,13 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
-import com.connection.next.infantree.network.ImageDownloadHelper;
 import com.connection.next.infantree.provider.InfantreeContract;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.net.URLDecoder;
 
 /**
  * Created by chayongbin on 15. 4. 15..
@@ -33,11 +29,12 @@ public class ProviderDBHelper {
 
         try {
             JSONObject diaryJson = new JSONObject(jsonData);
-            if (!diaryJson.isNull("_id")){
+            if (diaryJson.isNull("date")) {
+                Log.e(TAG, "date from json is null!");
                 return;
             }
 
-            Diary_Id = diaryJson.getString("_id");
+            Diary_Id = diaryJson.getString("date");
 
             // null이 아닐 때만 값 추출
             if (!diaryJson.isNull("today_photo"))

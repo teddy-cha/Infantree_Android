@@ -8,4 +8,5 @@
     <string name="server_url">ServerUrl</string>
     <string name="server_url_value">http://125.209.194.223:3000/</string>
     <string name="baby_id">baby_id</string>
+    <string name="parent">parent</string> <!--mom or dad-->
 </resources>

@@ -20,13 +20,10 @@ public class InfantreeProvider extends ContentProvider {
 
     private Context context;
     private SQLiteDatabase database;
-    private final String PHOTO_TABLE_NAME = "Photos";
     private final String DIARY_TABLE_NAME = "Diaries";
 
-    private static final int PHOTO_LIST = 1;
-    private static final int PHOTO_ID = 2;
-    private static final int DIARY_LIST = 3;
-    private static final int DIARY_ID = 4;
+    private static final int DIARY_LIST = 1;
+    private static final int DIARY_ID = 2;
     private static final UriMatcher URI_MATCHER;
 
     static {
@@ -36,7 +33,7 @@ public class InfantreeProvider extends ContentProvider {
     }
 
     private void sqLiteInitialize() {
-        database = context.openOrCreateDatabase("testdb.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        database = context.openOrCreateDatabase("infantree.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
         database.setLocale(Locale.getDefault());
         database.setVersion(1);
     }
@@ -102,7 +99,7 @@ public class InfantreeProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
 
         long resultId;
-        Uri resultUri = null;
+        Uri resultUri;
 
         switch (URI_MATCHER.match(uri)) {
             case DIARY_LIST:

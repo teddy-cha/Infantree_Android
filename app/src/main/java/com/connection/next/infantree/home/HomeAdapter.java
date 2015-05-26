@@ -7,22 +7,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.model.PhotoModel;
-import com.connection.next.infantree.photos.FullImageActivity;
-import com.urqa.clientinterface.URQAController;
+// import com.urqa.clientinterface.URQAController;
 
 import org.lucasr.twowayview.ItemClickSupport;
 import org.lucasr.twowayview.widget.TwoWayView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -110,7 +106,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 }
             });
         } catch (Exception e) {
-            URQAController.SendException(e);
+            // URQAController.SendException(e);
         }
 
     }
