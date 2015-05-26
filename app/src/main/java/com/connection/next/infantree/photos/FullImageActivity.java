@@ -9,11 +9,16 @@ import android.widget.ImageView;
 
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.home.HomeActivity;
+import com.urqa.clientinterface.URQAController;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by chayongbin on 15. 5. 25..
  */
 public class FullImageActivity extends Activity {
+
+    PhotoViewAttacher mAttacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,10 +35,15 @@ public class FullImageActivity extends Activity {
         AllPhotosAdapter imageAdapter = new AllPhotosAdapter(this, date);
 
         ImageView imageView = (ImageView) findViewById(R.id.full_image_view);
-        String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + imageAdapter.photoListByDate.get(position);
-        Bitmap bitmap = BitmapFactory.decodeFile(img_path);
-        imageView.setImageBitmap(bitmap);
+        try {
+            String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + imageAdapter.photoListByDate.get(position);
+            Bitmap bitmap = BitmapFactory.decodeFile(img_path);
+            imageView.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            URQAController.SendException(e);
+        }
 
+        mAttacher = new PhotoViewAttacher(imageView);
     }
 
 }

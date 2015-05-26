@@ -7,6 +7,7 @@ package com.connection.next.infantree.home;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import org.lucasr.twowayview.widget.TwoWayView;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         this.date = date;
         photoModelArrayList = null;
         photoModelArrayList = dao.getPhotoListByDateOfThree(date);
-        mItems = new ArrayList<Integer>(size);
+        mItems = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             if (i <= MAX_ITEM - 1) {
                 addItem(i);
@@ -99,31 +101,30 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
         final View itemView = holder.itemView;
         final int itemId = mItems.get(position);
-        final SpannableGridLayoutManager.LayoutParams lp =
-                (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
+        final SpannableGridLayoutManager.LayoutParams lp = (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
+        final String image = photoModelArrayList.get(position);
 
-        String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + photoModelArrayList.get(position);
+        String img_path = mContext.getFilesDir().getPath() + "/" + image;
 //        String img_path = HomeActivity.getAppContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + "/" + photoModelArrayList.get(position);
 
-        Log.e("lllll position", itemId+"");
-        Log.e("lllll img_path", img_path);
 
-        Bitmap bitmap = BitmapFactory.decodeFile(img_path);
-        holder.image.setImageBitmap(bitmap);
+//        Bitmap bitmap = BitmapFactory.decodeFile(img_path);
+//        holder.image.setImageBitmap(bitmap);
 
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inSampleSize = 4;
-//        options.inPurgeable = true;
-//
-//        Bitmap bitmap = BitmapFactory.decodeFile(img_path, options);
-//        Bitmap resized = Bitmap.createScaledBitmap(bitmap, 20, 20, true);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        options.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(img_path, options);
+        int height = bitmap.getHeight();
+        int width = bitmap.getWidth();
+        Bitmap resized = Bitmap.createScaledBitmap(bitmap, (width*400) / height, 400, true);
+
 //        holder.image.setImageBitmap(resized);
-
 //        Bitmap bm = BitmapFactory.decodeFile(imagePath);
-//        holder.imageViewReference.get().setImageBitmap(resized);
 
-
-
+        holder.imageViewReference.get().setImageBitmap(resized);
 
         if (position == 0){
             holder.title.setText(date);
@@ -133,8 +134,6 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
         //   아이템 갯수에 따른 배치방식
 
         if (mItems.size() == 1) {
-
-
             final int one_colSpan = 6;
             final int one_rowSpan = 4;
             lp.rowSpan = one_rowSpan;
@@ -167,6 +166,6 @@ public class SpannableAdapter extends RecyclerView.Adapter<SpannableAdapter.Simp
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return photoModelArrayList.size();
     }
 }

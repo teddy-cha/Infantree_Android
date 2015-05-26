@@ -55,16 +55,16 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.home_main);
         HomeActivity.context = getApplicationContext();
 
+
         // ------------------------------------------------
         // SharedPreferences
         // ------------------------------------------------
-
         pref = getSharedPreferences(getResources().getString(R.string.pref_name), MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putString(getResources().getString(R.string.server_url),
                 getResources().getString(R.string.server_url_value));
-        editor.putString(getResources().getString(R.string.baby_id), "1004");
+        editor.putString(getResources().getString(R.string.baby_id), "1005");
         editor.commit();
 
         serverUrl = pref.getString(context.getResources().getString(R.string.server_url), "");

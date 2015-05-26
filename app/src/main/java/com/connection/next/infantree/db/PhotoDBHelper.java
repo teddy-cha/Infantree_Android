@@ -12,9 +12,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chayongbin on 15. 4. 15..
@@ -116,7 +118,7 @@ public class PhotoDBHelper {
         String _id;
         String date;
 
-        String sql = "SELECT * FROM Photos GROUP BY date ORDER BY PhotoNum DESC;";
+        String sql = "SELECT * FROM Photos GROUP BY date ORDER BY date DESC;";
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
             _id = cursor.getString(1);
@@ -132,7 +134,7 @@ public class PhotoDBHelper {
 
         String _id;
 
-        String sql = "SELECT * FROM Photos WHERE date = '" + date + "' ORDER BY PhotoNum DESC LIMIT 3;";
+        String sql = "SELECT * FROM Photos WHERE date = '" + date + "' ORDER BY date DESC LIMIT 3;";
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
             _id = cursor.getString(1);
@@ -147,7 +149,7 @@ public class PhotoDBHelper {
 
         String _id;
 
-        String sql = "SELECT * FROM Photos WHERE date = '" + date + "' ORDER BY PhotoNum DESC;";
+        String sql = "SELECT * FROM Photos WHERE date = '" + date + "' ORDER BY date DESC;";
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
             _id = cursor.getString(1);

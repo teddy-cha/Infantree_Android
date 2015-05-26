@@ -15,11 +15,14 @@ import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.model.PhotoModel;
 import com.connection.next.infantree.photos.FullImageActivity;
+import com.urqa.clientinterface.URQAController;
 
 import org.lucasr.twowayview.ItemClickSupport;
 import org.lucasr.twowayview.widget.TwoWayView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -52,66 +55,64 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         dao = new PhotoDBHelper(HomeActivity.getAppContext());
         this.rowLayout = rowLayout;
         this.mContext = context;
-        TOTAL = dao.getDateCounts();
+        COUNT = dao.getDateCounts();
         photoList = dao.getPhotoList();
-        COUNT=TOTAL;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(rowLayout, viewGroup, false);
+
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//
-//        if (position == 7){
-//            return;
-//        }
 
-        final String date = photoList.get(position).getDate();
-        photoListByDate = dao.getPhotoListByDateOfThree(date);
+        try {
+            final String date = photoList.get(position).getDate();
+            photoListByDate = dao.getPhotoListByDateOfThree(date);
+            int size = photoListByDate.size();
+            holder.spannable.setAdapter(new SpannableAdapter(mContext, holder.spannable, date, size));
 
-        System.out.println("photoListByDate : " + photoListByDate);
-        int size = photoListByDate.size();
-        holder.spannable.setAdapter(new SpannableAdapter(mContext, holder.spannable, date, size));
-        Log.i("Data is ",date);
+            holder.allPhotosButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, date + "'s all Photos", Toast.LENGTH_SHORT).show();
+                    Intent allPhotosIntent = new Intent("com.connection.next.infantree.photos.AllPhotosActivity");
+                    allPhotosIntent.putExtra("date", date);
+                    mContext.startActivity(allPhotosIntent);
 
-        holder.allPhotosButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, date + "'s all Photos", Toast.LENGTH_SHORT).show();
-                Intent allPhotosIntent = new Intent("com.connection.next.infantree.photos.AllPhotosActivity");
-                allPhotosIntent.putExtra("date", date);
-                mContext.startActivity(allPhotosIntent);
+                }
+            });
 
-            }
-        });
+            holder.diaryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, date + "'s diary", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent("com.connection.next.infantree.diary.SeeDiaryActivity");
+                    intent.putExtra("date", date);
+                    mContext.startActivity(intent);
+                }
+            });
 
-        holder.diaryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, date + "'s diary", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent("com.connection.next.infantree.diary.SeeDiaryActivity");
-                intent.putExtra("date", date);
-                mContext.startActivity(intent);
-            }
-        });
+            final ItemClickSupport itemClick = ItemClickSupport.addTo(holder.spannable);
 
-        final ItemClickSupport itemClick = ItemClickSupport.addTo(holder.spannable);
+            itemClick.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                @Override
+                public void onItemClick(RecyclerView recyclerView, View view, int i, long l) {
+                    Toast.makeText(mContext, date + "'s " + i, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent("com.connection.next.infantree.photos.FullImageActivity");
+                    // passing array index
+                    intent.putExtra("id", i);
+                    intent.putExtra("date", date);
+                    mContext.startActivity(intent);
+                }
+            });
+        } catch (Exception e) {
+            URQAController.SendException(e);
+        }
 
-        itemClick.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClick(RecyclerView recyclerView, View view, int i, long l) {
-                Toast.makeText(mContext, date + "'s " + i, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent("com.connection.next.infantree.photos.FullImageActivity");
-                // passing array index
-                intent.putExtra("id", i);
-                intent.putExtra("date", date);
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     public int getItemCount() {

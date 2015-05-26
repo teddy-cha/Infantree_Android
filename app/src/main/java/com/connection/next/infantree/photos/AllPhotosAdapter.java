@@ -15,6 +15,8 @@ import com.connection.next.infantree.home.HomeActivity;
 
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 /**
  * Created by chayongbin on 15. 5. 25..
  */
@@ -56,12 +58,32 @@ public class AllPhotosAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        options.inPurgeable = true;
         String img_path = HomeActivity.getAppContext().getFilesDir().getPath() + "/" + photoListByDate.get(position);
-        Bitmap bitmap = BitmapFactory.decodeFile(img_path);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(img_path, options);
+
+        int height = bitmap.getHeight();
+        int width = bitmap.getWidth();
+        Bitmap resized = null;
+
+        resized = Bitmap.createScaledBitmap(bitmap, (width*340) / height, 340, true);
+
+//        resized = Bitmap.createScaledBitmap(bitmap, 340, 340, true);
+
         ImageView imageView = new ImageView(context);
-        imageView.setImageBitmap(bitmap);
+        imageView.setImageBitmap(resized);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(new GridView.LayoutParams(340, 340));
+
+
+
+
+
         return imageView;
     }
 
