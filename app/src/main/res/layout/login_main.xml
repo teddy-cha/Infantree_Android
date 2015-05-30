@@ -49,13 +49,13 @@
                 android:text="@string/com_kakao_unlink_button" />
         </LinearLayout>
 
-        <com.kakao.widget.ProfileLayout
+        <com.connection.next.infantree.base.ProfileLayout
             android:id="@+id/com_kakao_user_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"/>
 
-        <com.kakao.sample.usermgmt.ExtraUserPropertyLayout
+        <com.connection.next.infantree.login.ExtraUserPropertyLayout
             android:id="@+id/extra_user_property"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

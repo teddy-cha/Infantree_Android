@@ -21,8 +21,17 @@
         style="@style/com_kakao_profile_property_value" />
 
     <TextView
+        android:text="@string/age"
+        style="@style/com_kakao_profile_property_label" />
+
+    <EditText
+        android:id="@+id/birth"
+        style="@style/com_kakao_profile_property_value" />
+
+    <TextView
         android:text="@string/gender"
         style="@style/com_kakao_profile_property_label" />
+
 
     <Spinner
         android:id="@+id/gender"

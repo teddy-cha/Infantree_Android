@@ -37,12 +37,14 @@ import java.util.Map;
  */
 public class ExtraUserPropertyLayout extends FrameLayout {
     // property key
-    private  static final String NAME_KEY = "name";
-    private  static final String AGE_KEY = "age";
-    private  static final String GENDER_KEY = "gender";
+    private  static final String NAME_KEY = "baby_name";
+    private  static final String AGE_KEY = "baby_age";
+    private  static final String BIRTH_KEY = "baby_birth";
+    private  static final String GENDER_KEY = "parent_status";
 
     private EditText name;
     private EditText age;
+    private EditText birth;
     private Spinner gender;
 
     public ExtraUserPropertyLayout(Context context) {
@@ -63,12 +65,14 @@ public class ExtraUserPropertyLayout extends FrameLayout {
         final View view = inflate(getContext(), R.layout.extra_user_property, this);
         name = (EditText) view.findViewById(R.id.name);
         age = (EditText) view.findViewById(R.id.age);
+        birth = (EditText) view.findViewById(R.id.birth);
         gender = (Spinner) view.findViewById(R.id.gender);
     }
 
     HashMap<String, String> getProperties(){
         final String nickNameValue = name.getText().toString();
         final String ageValue = age.getText().toString();
+        final String birthValue = birth.getText().toString();
         final String genderValue = String.valueOf(gender.getSelectedItem());
 
         HashMap<String, String> properties = new HashMap<String, String>();
@@ -76,6 +80,8 @@ public class ExtraUserPropertyLayout extends FrameLayout {
             properties.put(NAME_KEY, nickNameValue);
         if(ageValue != null)
             properties.put(AGE_KEY, ageValue);
+        if(birthValue != null)
+            properties.put(BIRTH_KEY, birthValue);
         if(genderValue != null)
             properties.put(GENDER_KEY, genderValue);
 
@@ -90,6 +96,10 @@ public class ExtraUserPropertyLayout extends FrameLayout {
         final String ageValue = properties.get(AGE_KEY);
         if (ageValue != null)
             age.setText(ageValue);
+
+        final String birthValue = properties.get(BIRTH_KEY);
+        if (ageValue != null)
+            birth.setText(birthValue);
 
         final String genderValue = properties.get(GENDER_KEY);
         if (genderValue != null) {
