@@ -10,7 +10,8 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="com.connection.next.infantree.base.GlobalApplication">
 
         <service
             android:name=".network.SyncDataService"
@@ -30,14 +31,19 @@
             android:readPermission="com.connection.next.infantree.provider.READ"
             android:writePermission="com.connection.next.infantree.provider.WRITE" />
 
-
         <activity
-            android:name="com.connection.next.infantree.home.HomeActivity"
-            android:label="@string/app_name" >
+            android:name="com.connection.next.infantree.login.UserMgmtLoginActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.connection.next.infantree.home.HomeActivity"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".photos.AllPhotosActivity"
@@ -63,6 +69,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key"/>
+
+        <activity
+            android:name="com.connection.next.infantree.login.UsermgmtSignupActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name="com.connection.next.infantree.login.UsermgmtMainActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop"/>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
     </application>
 </manifest>
