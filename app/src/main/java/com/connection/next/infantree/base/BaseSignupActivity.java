@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.connection.next.infantree.home.HomeActivity;
+import com.connection.next.infantree.login.UsermgmtMainActivity;
 import com.kakao.APIErrorResult;
 import com.kakao.MeResponseCallback;
 import com.kakao.UserManagement;
@@ -35,13 +37,16 @@ public class BaseSignupActivity extends Activity {
     }
 
     protected void redirectMainActivity() {
-//        final Intent intent = new Intent(this, SampleMainActivity.class);
+//        final Intent intent = new Intent(this, UsermgmtMainActivity.class);
 //        startActivity(intent);
 //        finish();
+        final Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     protected void redirectLoginActivity() {
-        Intent intent = new Intent(this, BaseSignupActivity.class);
+        Intent intent = new Intent(this, BaseLoginActivity.class);
         startActivity(intent);
         finish();
     }
@@ -56,7 +61,7 @@ public class BaseSignupActivity extends Activity {
             protected void onSuccess(final UserProfile userProfile) {
                 Logger.getInstance().d("UserProfile : " + userProfile);
                 userProfile.saveUserToCache();
-                redirectMainActivity();
+//                redirectMainActivity();
             }
 
             @Override

@@ -18,13 +18,13 @@
 package com.connection.next.infantree.login;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.connection.next.infantree.R;
 import com.connection.next.infantree.base.BaseSignupActivity;
+import com.connection.next.infantree.home.HomeActivity;
 import com.kakao.APIErrorResult;
 import com.kakao.SignupResponseCallback;
 import com.kakao.UserManagement;
@@ -37,20 +37,30 @@ import java.util.HashMap;
  * me를 호출하여 가입 여부에 따라 가입 페이지를 그리던지 Main 페이지로 이동 시킨다.
  */
 public class UsermgmtSignupActivity extends BaseSignupActivity {
+
     protected void redirectLoginActivity() {
         Intent intent = new Intent(this, UserMgmtLoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    protected void redirectMainActivity() {
-        final Intent intent = new Intent(this, UsermgmtMainActivity.class);
+    protected void homeActivity(){
+        final Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
+
     }
 
+//    protected void redirectMainActivity(){
+//        final Intent intent = new Intent(this, UsermgmtMainActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
+
+
     protected void showSignup() {
-        setContentView(R.layout.signup);
+        System.out.println("********************************");
+        setContentView(R.layout.a_signup);
         final ExtraUserPropertyLayout extraUserPropertyLayout = (ExtraUserPropertyLayout) findViewById(R.id.extra_user_property);
         Button signupButton = (Button) findViewById(R.id.buttonSignup);
         signupButton.setOnClickListener(new View.OnClickListener() {
@@ -67,11 +77,13 @@ public class UsermgmtSignupActivity extends BaseSignupActivity {
             @Override
             protected void onSuccess(final long userId) {
 //                redirectMainActivity();
-                Log.i("", "");
+                homeActivity();
+//                Log.i("", "");
             }
 
             @Override
             protected void onSessionClosedFailure(final APIErrorResult errorResult) {
+
                 redirectLoginActivity();
             }
 

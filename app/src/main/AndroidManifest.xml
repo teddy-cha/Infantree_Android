@@ -15,6 +15,8 @@
 
         <service
             android:name=".network.SyncDataService"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.connection.next.infantree.network.SyncDataService" />
@@ -69,16 +71,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.connection.next.infantree.login.UsermgmtMainActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTask"/>
 
         <activity
             android:name="com.connection.next.infantree.login.UsermgmtSignupActivity"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTask"/>
-
-        <activity
-            android:name="com.connection.next.infantree.login.UsermgmtMainActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTop"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

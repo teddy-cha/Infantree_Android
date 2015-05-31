@@ -1,15 +1,30 @@
 package com.connection.next.infantree.home.navigation;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.home.HomeActivity;
+import com.connection.next.infantree.login.UserMgmtLoginActivity;
+import com.connection.next.infantree.login.UsermgmtSignupActivity;
 import com.connection.next.infantree.model.UserModel;
+import com.kakao.APIErrorResult;
+import com.kakao.UnlinkResponseCallback;
+import com.kakao.UserManagement;
+import com.kakao.helper.Logger;
+
+import org.lucasr.twowayview.ItemClickSupport;
 
 /**
  * Created by viz on 2015. 3. 31..
@@ -26,6 +41,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
     private String age;
     private int profile;
     private int background;
+    private Context context;
 
     public HomeNavigationAdapter(UserModel userModel) {
         this.mNavTitles = new String[]{"Timeline", "Filter", "Setting"};
@@ -37,6 +53,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
         this.age = userModel.getAge();
         this.profile = userModel.getProfile();
         this.background = userModel.getBackgroundImg();
+        context = HomeActivity.getAppContext();
     }
 
     // 내부 클래스 - 뷰의 아이디와 뷰에 필요한 정보를 가지고 있는 홀더
@@ -105,6 +122,17 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
             // 헤더가 맨 위에 있어서 헤더의 position 값이 0이기 때문에 아이템의 포지션은 1부터 시작이다 그래서 인덱스 값을 position-1 값으로 해줌
             holder.rowText.setText(mNavTitles[position - 1]);
             holder.rowImage.setImageResource(mIcons[position - 1]);
+
+            if (position == 3) {
+                holder.rowText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, UserMgmtLoginActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+
         }
 
         // 헤더 뷰홀더의 디스플레이
@@ -112,7 +140,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
             holder.ivProfile.setImageResource(profile);
             holder.tvName.setText(name);
             holder.tvAge.setText(age);
-            holder.navigationLayout.setBackgroundResource(background);
+//            holder.navigationLayout.setBackgroundResource(background);
         }
     }
 

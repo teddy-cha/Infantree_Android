@@ -14,10 +14,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.base.ProfileLayout;
 import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.home.navigation.HomeNavigationAdapter;
+import com.connection.next.infantree.login.ExtraUserPropertyLayout;
 import com.connection.next.infantree.model.UserModel;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.kakao.UserProfile;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -45,12 +48,19 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
     private String serverUrl;
     private String babyId;
 
+    private UserProfile userProfile;
+    private ProfileLayout profileLayout;
+    private ExtraUserPropertyLayout extraUserPropertyLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        System.out.println("********************************");
         // URQAController.InitializeAndStartSession(getApplicationContext(), "211C55F9");
         setContentView(R.layout.home_main);
+
         HomeActivity.context = getApplicationContext();
 
 
@@ -147,7 +157,17 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onRestart() {
         super.onRestart();
+        userProfile = UserProfile.loadFromCache();
+        if(userProfile != null)
+            showProfile();
         recyclerView.setAdapter(homeAdapter);
+    }
+
+    private void showProfile() {
+        if(profileLayout != null)
+            profileLayout.setUserProfile(userProfile);
+        if(extraUserPropertyLayout != null)
+            extraUserPropertyLayout.showProperties(userProfile.getProperties());
     }
 
     @Override
