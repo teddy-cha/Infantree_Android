@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/popup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="home.HomeActivity" >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="@string/name"
+            style="@style/com_kakao_profile_property_label" />
+
+        <EditText
+            android:id="@+id/name"
+            style="@style/com_kakao_profile_property_value" />
+
+        <TextView
+            android:text="@string/age"
+            style="@style/com_kakao_profile_property_label" />
+
+        <EditText
+            android:id="@+id/age"
+            style="@style/com_kakao_profile_property_value" />
+
+        <TextView
+            android:text="@string/birth"
+            style="@style/com_kakao_profile_property_label" />
+
+        <DatePicker
+            android:id="@+id/datepicker"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="@string/gender"
+            style="@style/com_kakao_profile_property_label" />
+
+        <Spinner
+            android:id="@+id/gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:entries="@array/gender_types" />
+
+        <Button
+            android:id="@+id/buttonSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/com_kakao_profile_property_margin"
+            android:layout_marginLeft="@dimen/com_kakao_profile_property_margin"
+            android:layout_marginRight="@dimen/com_kakao_profile_property_margin"
+            android:textSize="@dimen/com_kakao_profile_property_text"
+            android:textStyle="bold"
+            android:paddingLeft="@dimen/com_kakao_padding"
+            android:text="@string/signup_button"/>
+
+
+    </LinearLayout>
+</ScrollView>

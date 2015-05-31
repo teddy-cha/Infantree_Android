@@ -17,21 +17,25 @@
  */
 package com.connection.next.infantree.login;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.Button;
+import android.widget.Toast;
 
 import com.connection.next.infantree.R;
+import com.gc.materialdesign.views.Button;
+import com.kakao.APIErrorResult;
+import com.kakao.UpdateProfileResponseCallback;
+import com.kakao.UserManagement;
+import com.kakao.UserProfile;
+import com.kakao.helper.Logger;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +44,7 @@ import java.util.Map;
  * 이름, 나이, 성별을 입력할 수 있다.
  * @author MJ
  */
-public class ExtraUserPropertyLayout extends FrameLayout {
+public class ExtraUserPropertyLayoutCustom extends Activity {
     // property key
     private  static final String NAME_KEY = "baby_name";
     private  static final String AGE_KEY = "baby_age";
@@ -53,33 +57,23 @@ public class ExtraUserPropertyLayout extends FrameLayout {
     private EditText age;
     private EditText birth;
     private Spinner gender;
-
-    public ExtraUserPropertyLayout(Context context) {
-        super(context);
-//        this.context = context;
-    }
-
-    public ExtraUserPropertyLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-//        this.context = context;
-    }
-
-    public ExtraUserPropertyLayout(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-//        this.context = context;
-    }
-
+    private Button buttonSignup;
+    private UserProfile userProfile;
 
     @Override
-    protected void onAttachedToWindow () {
-        super.onAttachedToWindow();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        final View view = inflate(getContext(), R.layout.extra_user_property, this);
+        userProfile = UserProfile.loadFromCache();
+        final View view = getLayoutInflater().inflate(R.layout.dialog, null);
+
         name = (EditText) view.findViewById(R.id.name);
         age = (EditText) view.findViewById(R.id.age);
         birth = (EditText) view.findViewById(R.id.birth);
 //        birthButton = (Button) view.findViewById(R.id.birthButton);
         gender = (Spinner) view.findViewById(R.id.gender);
+        buttonSignup = (Button) view.findViewById(R.id.buttonSignup);
+        buttonSignup.setOnClickListener(mClickListener);
 
 //        birthButton.setOnClickListener(new View.OnClickListener() {
 //
@@ -97,16 +91,34 @@ public class ExtraUserPropertyLayout extends FrameLayout {
 //        });
     }
 
-//    private DatePickerDialog.OnDateSetListener myDateSetListener = new DatePickerDialog.OnDateSetListener() {
-//
-//        public void onDateSet(DatePicker view, int year, int monthOfYear,
-//                              int dayOfMonth) {
-//            String date =String.valueOf(year) + "-"
-//                    + String.valueOf(monthOfYear + 1) + "-"
-//                    + String.valueOf(dayOfMonth);
-//            birth.setText(date);
-//        }
-//    };
+    Button.OnClickListener mClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            final HashMap<String, String> properties = getProperties();
+
+            UserManagement.requestUpdateProfile(new UpdateProfileResponseCallback() {
+                @Override
+                protected void onSuccess(final long userId) {
+                    UserProfile.updateUserProfile(userProfile, properties);
+                    if (userProfile != null)
+                        userProfile.saveUserToCache();
+                    Toast.makeText(getApplicationContext(), "succeeded to update user profile", Toast.LENGTH_SHORT).show();
+                    Logger.getInstance().d("succeeded to update user profile" + userProfile);
+                }
+
+                @Override
+                protected void onSessionClosedFailure(final APIErrorResult errorResult) {
+                }
+
+                @Override
+                protected void onFailure(final APIErrorResult errorResult) {
+                    String message = "failed to update user profile. msg=" + errorResult;
+                    Logger.getInstance().d(message);
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                }
+            }, properties);
+        }
+    };
+
 
     HashMap<String, String> getProperties(){
         final String nickNameValue = name.getText().toString();
@@ -148,5 +160,7 @@ public class ExtraUserPropertyLayout extends FrameLayout {
         }
     }
 
-
+    public Context getContext() {
+        return this;
+    }
 }

@@ -50,7 +50,7 @@ public class BaseSignupActivity extends Activity {
     }
 
     protected void redirectLoginActivity() {
-        Intent intent = new Intent(this, BaseLoginActivity.class);
+        Intent intent = new Intent(this, BaseSignupActivity.class);
         startActivity(intent);
         finish();
     }
@@ -74,6 +74,7 @@ public class BaseSignupActivity extends Activity {
 
             @Override
             protected void onNotSignedUp() {
+                Logger.getInstance().d("onNotSignedUP");
                 showSignup();
             }
 

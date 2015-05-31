@@ -5,4 +5,10 @@
         <item name="android:scrollbars">vertical</item>
     </style>
 
+    <style name="IntroTheme" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/usermgmt_sample_login_background</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

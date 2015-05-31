@@ -91,7 +91,7 @@ public class BaseLoginActivity extends Activity {
     }
 
     protected void onSessionOpened(){
-        final Intent intent = new Intent(BaseLoginActivity.this, BaseSignupActivity.class);
+        final Intent intent = new Intent(BaseLoginActivity.this, BaseLoginActivity.class);
         startActivity(intent);
         finish();
     }
