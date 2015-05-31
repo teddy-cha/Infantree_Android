@@ -28,6 +28,7 @@ import com.connection.next.infantree.home.HomeActivity;
 import com.kakao.APIErrorResult;
 import com.kakao.SignupResponseCallback;
 import com.kakao.UserManagement;
+import com.kakao.UserProfile;
 import com.kakao.helper.Logger;
 
 import java.util.HashMap;
@@ -37,6 +38,8 @@ import java.util.HashMap;
  * me를 호출하여 가입 여부에 따라 가입 페이지를 그리던지 Main 페이지로 이동 시킨다.
  */
 public class UsermgmtSignupActivity extends BaseSignupActivity {
+
+    private UserProfile userProfile;
 
     protected void redirectLoginActivity() {
         Intent intent = new Intent(this, UserMgmtLoginActivity.class);
@@ -51,11 +54,18 @@ public class UsermgmtSignupActivity extends BaseSignupActivity {
 
     }
 
-//    protected void redirectMainActivity(){
-//        final Intent intent = new Intent(this, UsermgmtMainActivity.class);
+    protected void redirectMainActivity(){
+        userProfile = UserProfile.loadFromCache();
+
+            final Intent intent = new Intent(this, UsermgmtMainActivity.class);
+            startActivity(intent);
+            finish();
+
+
+//        final Intent intent = new Intent(this, HomeActivity.class);
 //        startActivity(intent);
 //        finish();
-//    }
+    }
 
 
     protected void showSignup() {
@@ -63,6 +73,7 @@ public class UsermgmtSignupActivity extends BaseSignupActivity {
         setContentView(R.layout.a_signup);
         final ExtraUserPropertyLayout extraUserPropertyLayout = (ExtraUserPropertyLayout) findViewById(R.id.extra_user_property);
         Button signupButton = (Button) findViewById(R.id.buttonSignup);
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         signupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onClickSignup(extraUserPropertyLayout.getProperties());
@@ -76,8 +87,8 @@ public class UsermgmtSignupActivity extends BaseSignupActivity {
         UserManagement.requestSignup(new SignupResponseCallback() {
             @Override
             protected void onSuccess(final long userId) {
-//                redirectMainActivity();
-                homeActivity();
+                redirectMainActivity();
+//                homeActivity();
 //                Log.i("", "");
             }
 

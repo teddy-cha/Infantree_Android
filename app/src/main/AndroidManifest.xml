@@ -72,12 +72,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.connection.next.infantree.login.UsermgmtMainActivity"
+            android:name="com.connection.next.infantree.login.UsermgmtSignupActivity"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTask"/>
-
         <activity
-            android:name="com.connection.next.infantree.login.UsermgmtSignupActivity"
+            android:name="com.connection.next.infantree.login.UsermgmtMainActivity"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTask"/>
 

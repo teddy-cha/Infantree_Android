@@ -45,6 +45,10 @@ public class BaseSignupActivity extends Activity {
         finish();
     }
 
+    protected void homeActivity(){
+
+    }
+
     protected void redirectLoginActivity() {
         Intent intent = new Intent(this, BaseLoginActivity.class);
         startActivity(intent);
@@ -61,7 +65,11 @@ public class BaseSignupActivity extends Activity {
             protected void onSuccess(final UserProfile userProfile) {
                 Logger.getInstance().d("UserProfile : " + userProfile);
                 userProfile.saveUserToCache();
-//                redirectMainActivity();
+                if (userProfile.getProperty("baby_name") == null) {
+                    redirectMainActivity();
+                } else {
+                    redirectMainActivity();
+                }
             }
 
             @Override

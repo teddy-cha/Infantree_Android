@@ -52,29 +52,25 @@ public class ExtraUserPropertyLayout extends FrameLayout {
     private EditText name;
     private EditText age;
     private EditText birth;
-    private Button birthButton;
     private Spinner gender;
-    private Context context;
 
     public ExtraUserPropertyLayout(Context context) {
         super(context);
-//        this.context = context;
     }
 
     public ExtraUserPropertyLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        this.context = context;
     }
 
     public ExtraUserPropertyLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-//        this.context = context;
     }
 
 
     @Override
     protected void onAttachedToWindow () {
         super.onAttachedToWindow();
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
         final View view = inflate(getContext(), R.layout.extra_user_property, this);
         name = (EditText) view.findViewById(R.id.name);
         age = (EditText) view.findViewById(R.id.age);
