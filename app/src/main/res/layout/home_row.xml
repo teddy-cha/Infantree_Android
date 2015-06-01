@@ -5,6 +5,7 @@
     android:layout_margin="7dp"
     card_view:cardCornerRadius="1dp"
     android:layout_height="260dp">
+    <!--320-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/spannable_grid"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="280dp"
             app:twowayview_layoutManager="SpannableGridLayoutManager"
             app:twowayview_numColumns="6"
             app:twowayview_numRows="4" />

@@ -3,6 +3,7 @@ package com.connection.next.infantree.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.connection.next.infantree.model.PhotoModel;
@@ -17,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by chayongbin on 15. 4. 15..
@@ -44,6 +46,10 @@ public class PhotoDBHelper {
     public void insertJsonData(String jsonData) {
         String _id;
         String date;
+
+        if (jsonData == null || jsonData.isEmpty()) return;
+
+        Log.i("insertJsonData : ", "1");
 
         ImageDownloadHelper imageDownloadHelper = new ImageDownloadHelper(context);
 
@@ -87,7 +93,60 @@ public class PhotoDBHelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        database.close();
+//        database.close();
+    }
+
+    public void insertJsonDataSync(String jsonData) {
+        String _id;
+        String date;
+
+        if (jsonData == null || jsonData.isEmpty()) return;
+
+        Log.i("insertJsonData : ", "1");
+
+        ImageDownloadHelper imageDownloadHelper = new ImageDownloadHelper(context);
+
+        try {
+            JSONArray jsonArray = new JSONArray(jsonData);
+
+            for (int i=0; i < jsonArray.length(); ++i) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                _id = jsonObject.getString("_id");
+                date = jsonObject.getString("date");
+
+                java.sql.Date sqlDate = null;
+                java.util.Date utilDate;
+
+                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+                try {
+                    utilDate = transFormat.parse(date);
+                    sqlDate = new java.sql.Date(utilDate.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Log.i("json is " + date, _id);
+
+                if (isEmptyId(_id) == 1) {
+                    Log.i("sql has ", _id);
+                } else {
+                    String sql = "INSERT INTO Photos(_id, date) values('" + _id + "', '" + sqlDate + "');";
+
+                    try {
+                        database.execSQL(sql);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//                    imageDownloadHelper.downloadImageFile("http://125.209.194.223:3000/image?_id=" + _id, _id);
+                }
+                imageDownloadHelper.downloadImageFileSync("http://125.209.194.223:3000/image?_id=" + _id, _id);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        database.close();
     }
 
     public int isEmptyId(String _id) {
@@ -150,13 +209,13 @@ public class PhotoDBHelper {
         String _id;
 
         String sql = "SELECT * FROM Photos WHERE date = '" + date + "' ORDER BY date DESC;";
-        Cursor cursor = database.rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             _id = cursor.getString(1);
             photoList.add(_id);
         }
         cursor.close();
+
         return photoList;
     }
-
 }

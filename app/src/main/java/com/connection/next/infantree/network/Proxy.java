@@ -5,6 +5,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -61,19 +62,35 @@ public class Proxy {
     }
 
     public static void postDiary(String requestUrl, String baby_id, String date, String parent, String diary, AsyncHttpResponseHandler responseHandler) {
+        AsyncHttpClient client = new AsyncHttpClient();
 
         RequestParams params = new RequestParams();
         params.put("date", date);
         params.put("baby_id", baby_id);
 
-        if (parent == "dad")
-            params.put("dad_diary", diary);
-        else if (parent == "mom")
-            params.put("mom_diary", diary);
-        else
-            throw new IllegalArgumentException();
+        Log.i("test", "Parent : " + parent);
 
+        if (parent.equals("dad")) {
+            params.put("dad_diary", diary);
+            Log.i("upload", "Parent : " + parent + " : " + diary);
+        }
+
+        if (parent.equals("mom")) {
+            params.put("mom_diary", diary);
+            Log.i("upload", "Parent : " + parent + " : " + diary);
+        }
+
+        client.post(requestUrl, params, responseHandler);
+    }
+
+    public static void postTodayPhoto(String requestUrl, String baby_id, String date, String img_path , AsyncHttpResponseHandler responseHandler) {
         AsyncHttpClient client = new AsyncHttpClient();
+
+        RequestParams params = new RequestParams();
+        params.put("date", date);
+        params.put("baby_id", baby_id);
+        params.put("today_photo", img_path);
+
         client.post(requestUrl, params, responseHandler);
     }
 }

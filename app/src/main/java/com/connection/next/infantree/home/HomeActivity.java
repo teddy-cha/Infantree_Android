@@ -32,6 +32,7 @@ import com.connection.next.infantree.login.ExtraUserPropertyLayout;
 import com.connection.next.infantree.login.ExtraUserPropertyLayoutCustom;
 import com.connection.next.infantree.login.UserMgmtLoginActivity;
 import com.connection.next.infantree.model.UserModel;
+import com.connection.next.infantree.network.SyncDataService;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.kakao.APIErrorResult;
 import com.kakao.SignupResponseCallback;
@@ -113,14 +114,14 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
         userProfile = UserProfile.loadFromCache();
 
-        if (userProfile.getProperties() == null){
+        if (userProfile.getProperty("com.kakao.user.properties.baby_id") == null){
             createDialog();
         }
 
         babyId = userProfile.getProperty("com.kakao.user.properties.baby_id");
+        parent = userProfile.getProperty("com.kakao.user.properties.parent_status");
         String a = String.valueOf(userProfile.getProperties());
 
-        Log.i("****************  " , babyId);
 
         // ------------------------------------------------
         // SharedPreferences
@@ -141,15 +142,15 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
         // Sync Data Setting
         // ------------------------------------------------
 
-//        Intent syncIntent = new Intent(context, SyncDataService.class);
-//        startService(syncIntent);
+        Intent syncIntent = new Intent(context, SyncDataService.class);
+        startService(syncIntent);
 
 
         // ------------------------------------------------
         // Navigation Bar 에 사용할 Data Model에 대한 값 설정
         // ------------------------------------------------
 
-        UserModel test_model = new UserModel(babyId, "차민우", "185일, 6개월", R.drawable.aa, R.drawable.bb);
+        UserModel test_model = new UserModel(babyId, userProfile.getProperty("com.kakao.user.properties.baby_name") +  " (" + parent + ")", "생일 " + userProfile.getProperty("com.kakao.user.properties.baby_birth"), userProfile.getProfileImagePath() , R.drawable.bb);
 
         // ------------------------------------------------
         // Time Line

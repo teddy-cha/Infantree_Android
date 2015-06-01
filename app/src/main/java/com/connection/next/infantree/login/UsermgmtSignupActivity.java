@@ -57,6 +57,7 @@ public class UsermgmtSignupActivity extends BaseSignupActivity {
     protected void redirectMainActivity(){
         userProfile = UserProfile.loadFromCache();
         final Intent intent = new Intent(this, HomeActivity.class);
+//        final Intent intent = new Intent(this, UsermgmtMainActivity.class);
         startActivity(intent);
         finish();
     }

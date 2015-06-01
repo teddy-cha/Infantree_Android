@@ -1,5 +1,6 @@
 package com.connection.next.infantree.diary;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,6 +21,8 @@ import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.ProviderDBHelper;
 import com.connection.next.infantree.network.ImageDownloadHelper;
 import com.connection.next.infantree.network.Proxy;
+import com.connection.next.infantree.photos.AllPhotosActivity;
+import com.connection.next.infantree.photos.DiaryPhotosActivity;
 import com.connection.next.infantree.provider.InfantreeContract;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -40,6 +43,11 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
     private ViewSwitcher textSwitcher;
     private ViewSwitcher buttonSwitcher;
     private TextView currentParentDiary;
+    private String request;
+    private String originalDate;
+
+    public SeeDiaryActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +61,7 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
         serverUrl = pref.getString(getResources().getString(R.string.server_url), "");
 
         // 인텐트에서 date 값 가져오고 형식에 맞게 수정
-        final String originalDate = getIntent().getStringExtra("date"); // "2015-05-15"
+        originalDate = getIntent().getStringExtra("date"); // "2015-05-15"
         currentDiaryDate = originalDate.replace('-', '/'); // "2015/05/15"
 
         // 서버에서 다이어리 데이터 가져와서 DB에 넣어준다
@@ -61,7 +69,7 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
             @Override
             public void run() {
                 super.run();
-                String request = serverUrl + "diary?baby_id=" + babyId + "&date=" + originalDate;
+                request = serverUrl + "diary?baby_id=" + babyId + "&date=" + currentDiaryDate;
                 if (request != null) {
                     String json = Proxy.getJSON(request);
                     new ProviderDBHelper(SeeDiaryActivity.this).insertDiaryJsonData(json);
@@ -109,7 +117,7 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
                     @Override
                     public void run() {
                         super.run();
-                        new ImageDownloadHelper(SeeDiaryActivity.this).downloadImageFile("http://125.209.194.223:3000/image?_id=", photoIdd);
+                        new ImageDownloadHelper(SeeDiaryActivity.this).downloadImageFileSync("http://125.209.194.223:3000/image?_id=", photoIdd);
                     }
 
                 };
@@ -130,6 +138,7 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
             todaySelectText.setText("오늘의 사진을 등록해주세요");
             imageView.setImageResource(R.drawable.todayphoto);
         }
+        imageView.setOnClickListener(this);
 
         // 엄마 뷰
         RelativeLayout momLayout = (RelativeLayout) findViewById(R.id.see_diary_mom_diary_layout);
@@ -185,9 +194,21 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
         dadDiaryTextView.setText(dadDiary);
     }
 
+
+    @Override
+    public void onRestart(){
+
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.see_diary_image_view:
+                Intent intent = new Intent(this, DiaryPhotosActivity.class);
+                intent.putExtra("date", originalDate);
+                intent.putExtra("diaryDate", currentDiaryDate);
+                startActivity(intent);
             case R.id.see_diary_edit_button:
                 buttonSwitcher.showNext();
                 textSwitcher.showNext();
@@ -201,7 +222,7 @@ public class SeeDiaryActivity extends ActionBarActivity implements View.OnClickL
                 ((TextView) textSwitcher.getCurrentView()).setText(afterEdit); // textview 내용 바꿔주기
 
                 // 엄만지 아빤지 확인해서 두번째 혹은 세번째 인자에 넣어주기
-                Proxy.postDiary(serverUrl + "diary", babyId, currentDiaryDate, parent, afterEdit, new AsyncHttpResponseHandler() {
+                Proxy.postDiary(request + "diary", babyId, currentDiaryDate, parent, afterEdit, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         Toast.makeText(SeeDiaryActivity.this, "다이어리 업로드 성공!", Toast.LENGTH_LONG).show();

@@ -7,10 +7,10 @@ public class UserModel {
     private String Baby_Id;
     private String name;
     private String age;
-    private int profile;
+    private String profile;
     private int backgroundImg;
 
-    public UserModel (String Baby_Id, String name, String age, int profile, int backgroundImg) {
+    public UserModel (String Baby_Id, String name, String age, String profile, int backgroundImg) {
         this.Baby_Id = Baby_Id;
         this.name = name;
         this.age = age;
@@ -30,7 +30,7 @@ public class UserModel {
         return age;
     }
 
-    public int getProfile() {
+    public String getProfile() {
         return profile;
     }
 

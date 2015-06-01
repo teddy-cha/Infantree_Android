@@ -64,6 +64,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".photos.SelectImageActivity"
+            android:label="FullImageActivity" >
+            <intent-filter>
+                <action android:name="com.connection.next.infantree.photos.SelectImageActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".photos.DiaryPhotosActivity"
+            android:label="FullImageActivity" >
+            <intent-filter>
+                <action android:name="com.connection.next.infantree.photos.DiaryPhotosActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".diary.SeeDiaryActivity"
             android:label="SeeDiaryActivity" >
             <intent-filter>

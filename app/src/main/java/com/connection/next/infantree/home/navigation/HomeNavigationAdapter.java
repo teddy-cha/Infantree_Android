@@ -1,6 +1,7 @@
 package com.connection.next.infantree.home.navigation;
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.connection.next.infantree.R;
+import com.connection.next.infantree.base.GlobalApplication;
 import com.connection.next.infantree.home.HomeActivity;
 import com.connection.next.infantree.login.UserMgmtLoginActivity;
 import com.connection.next.infantree.login.UsermgmtSignupActivity;
@@ -39,7 +42,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
 
     private String name;
     private String age;
-    private int profile;
+    private String profile;
     private int background;
     private Context context;
 
@@ -65,7 +68,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
 
         TextView tvName;
         TextView tvAge;
-        ImageView ivProfile;
+        NetworkImageView ivProfile;
 
         RelativeLayout navigationLayout;
 
@@ -80,7 +83,7 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
             } else if (ViewType == TYPE_HEADER) {
                 tvName = (TextView) itemView.findViewById(R.id.name);
                 tvAge = (TextView) itemView.findViewById(R.id.age);
-                ivProfile = (ImageView) itemView.findViewById(R.id.circleView);
+                ivProfile = (NetworkImageView) itemView.findViewById(R.id.circleView);
                 navigationLayout = (RelativeLayout) itemView.findViewById(R.id.navi_header);
                 HolderId = 0;
             }
@@ -137,7 +140,10 @@ public class HomeNavigationAdapter extends RecyclerView.Adapter<HomeNavigationAd
 
         // 헤더 뷰홀더의 디스플레이
         else if (holder.HolderId == 0) {
-            holder.ivProfile.setImageResource(profile);
+            Application app = GlobalApplication.getGlobalApplicationContext();
+            if (app == null)
+                throw new UnsupportedOperationException("needs com.kakao.GlobalApplication in order to use ImageLoader");
+            holder.ivProfile.setImageUrl(profile, ((GlobalApplication) app).getImageLoader());
             holder.tvName.setText(name);
             holder.tvAge.setText(age);
 //            holder.navigationLayout.setBackgroundResource(background);

@@ -29,12 +29,12 @@ public class ProviderDBHelper {
 
         try {
             JSONObject diaryJson = new JSONObject(jsonData);
-            if (diaryJson.isNull("date")) {
+            if (diaryJson.isNull("_id")) {
                 Log.e(TAG, "date from json is null!");
                 return;
             }
 
-            Diary_Id = diaryJson.getString("date");
+            Diary_Id = diaryJson.getString("_id");
 
             // null이 아닐 때만 값 추출
             if (!diaryJson.isNull("today_photo"))

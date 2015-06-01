@@ -2,10 +2,12 @@ package com.connection.next.infantree.network;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.connection.next.infantree.R;
 import com.connection.next.infantree.db.PhotoDBHelper;
 import com.connection.next.infantree.home.HomeActivity;
 import com.loopj.android.http.AsyncHttpClient;
@@ -27,9 +29,20 @@ public class SyncDataService extends Service {
     private Proxy proxy;
     private PhotoDBHelper dao;
 
+    private SharedPreferences pref;
+    private String serverUrl;
+
+    private String babyId;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        pref = getSharedPreferences(getResources().getString(R.string.pref_name), MODE_PRIVATE);
+        serverUrl = pref.getString(this.getResources().getString(R.string.server_url), "");
+        babyId = pref.getString(this.getResources().getString(R.string.baby_id), "");
+
+        proxy = new Proxy();
+        dao = new PhotoDBHelper(getApplicationContext());
     }
 
 //    @Override
@@ -57,26 +70,21 @@ public class SyncDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        task = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                return null;
-            }
-        };
 
         mTask = new TimerTask() {
             @Override
             public void run() {
 
-//                String jsonData = proxy.getJSON();
-//                dao.insertJsonData(jsonData);
+                String jsonData = proxy.getJSON(serverUrl + "image?baby_id="+babyId);
+                Log.i("Sync : ", jsonData);
+                dao.insertJsonDataSync(jsonData);
                 Log.i("Sync : ", "Hello");
 
             }
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 1000*5, 1000*5);
+        mTimer.schedule(mTask, 1000 * 10, 1000 * 60);
         return super.onStartCommand(intent, flags, startId);
     }
 
