@@ -56,7 +56,7 @@ public class UsermgmtSignupActivity extends BaseSignupActivity {
 
     protected void redirectMainActivity(){
         userProfile = UserProfile.loadFromCache();
-        final Intent intent = new Intent(this, HomeActivity.class);
+        final Intent intent = new Intent(this, HomeActivity.class); 
 //        final Intent intent = new Intent(this, UsermgmtMainActivity.class);
         startActivity(intent);
         finish();
@@ -64,6 +64,7 @@ public class UsermgmtSignupActivity extends BaseSignupActivity {
 
 
     protected void showSignup() {
+//        김철수
         System.out.println("********************************");
         setContentView(R.layout.a_signup);
         final ExtraUserPropertyLayout extraUserPropertyLayout = (ExtraUserPropertyLayout) findViewById(R.id.extra_user_property);

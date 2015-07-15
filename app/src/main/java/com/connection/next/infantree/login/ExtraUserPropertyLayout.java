@@ -46,6 +46,7 @@ public class ExtraUserPropertyLayout extends FrameLayout {
     private  static final String AGE_KEY = "baby_age";
     private  static final String BIRTH_KEY = "baby_birth";
     private  static final String GENDER_KEY = "parent_status";
+    private static final String BABY_ID = "baby_id";
 
     private int myYear, myMonth, myDay;
 
@@ -53,20 +54,22 @@ public class ExtraUserPropertyLayout extends FrameLayout {
     private EditText age;
     private EditText birth;
     private Spinner gender;
+    private Button birthButton;
+    private Context context;
 
     public ExtraUserPropertyLayout(Context context) {
         super(context);
-//        this.context = context;
+        this.context = context;
     }
 
     public ExtraUserPropertyLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        this.context = context;
+        this.context = context;
     }
 
     public ExtraUserPropertyLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-//        this.context = context;
+        this.context = context;
     }
 
 
@@ -78,41 +81,45 @@ public class ExtraUserPropertyLayout extends FrameLayout {
         name = (EditText) view.findViewById(R.id.name);
         age = (EditText) view.findViewById(R.id.age);
         birth = (EditText) view.findViewById(R.id.birth);
-//        birthButton = (Button) view.findViewById(R.id.birthButton);
+        birthButton = (Button) view.findViewById(R.id.birthButton);
         gender = (Spinner) view.findViewById(R.id.gender);
 
-//        birthButton.setOnClickListener(new View.OnClickListener() {
-//
-//            final Calendar c = Calendar.getInstance();
-//            @Override
-//            public void onClick(View v) {
-//                myYear = c.get(Calendar.YEAR);
-//                myMonth = c.get(Calendar.MONTH);
-//                myDay = c.get(Calendar.DAY_OF_MONTH);
-//
-//                Dialog dlgDate = new DatePickerDialog(context, myDateSetListener,
-//                        myYear, myMonth, myDay);
-//                dlgDate.show();
-//            }
-//        });
+        birthButton.setOnClickListener(new View.OnClickListener() {
+
+            final Calendar c = Calendar.getInstance();
+            @Override
+            public void onClick(View v) {
+                myYear = c.get(Calendar.YEAR);
+                myMonth = c.get(Calendar.MONTH);
+                myDay = c.get(Calendar.DAY_OF_MONTH);
+
+                Dialog dlgDate = new DatePickerDialog(context, myDateSetListener,
+                        myYear, myMonth, myDay);
+                dlgDate.show();
+            }
+        });
     }
 
-//    private DatePickerDialog.OnDateSetListener myDateSetListener = new DatePickerDialog.OnDateSetListener() {
-//
-//        public void onDateSet(DatePicker view, int year, int monthOfYear,
-//                              int dayOfMonth) {
-//            String date =String.valueOf(year) + "-"
-//                    + String.valueOf(monthOfYear + 1) + "-"
+    private DatePickerDialog.OnDateSetListener myDateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+
+            String date = null;
+            date = String.format("%d%02d%02d",year,(monthOfYear+1),dayOfMonth);
+//            String date =String.valueOf(year)
+//                    + String.valueOf(monthOfYear + 1)
 //                    + String.valueOf(dayOfMonth);
-//            birth.setText(date);
-//        }
-//    };
+            birth.setText(date);
+        }
+    };
 
     HashMap<String, String> getProperties(){
         final String nickNameValue = name.getText().toString();
         final String ageValue = age.getText().toString();
         final String birthValue = birth.getText().toString();
         final String genderValue = String.valueOf(gender.getSelectedItem());
+        final String babyIdValue = birthValue;
 
         HashMap<String, String> properties = new HashMap<String, String>();
         if(nickNameValue != null)
@@ -123,6 +130,8 @@ public class ExtraUserPropertyLayout extends FrameLayout {
             properties.put(BIRTH_KEY, birthValue);
         if(genderValue != null)
             properties.put(GENDER_KEY, genderValue);
+        if(genderValue != null)
+            properties.put(BABY_ID, babyIdValue);
 
         return properties;
     }

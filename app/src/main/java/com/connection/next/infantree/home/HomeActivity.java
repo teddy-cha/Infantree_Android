@@ -114,10 +114,6 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
 
         userProfile = UserProfile.loadFromCache();
 
-        if (userProfile.getProperty("com.kakao.user.properties.baby_id") == null){
-            createDialog();
-        }
-
         babyId = userProfile.getProperty("com.kakao.user.properties.baby_id");
         parent = userProfile.getProperty("com.kakao.user.properties.parent_status");
         String a = String.valueOf(userProfile.getProperties());

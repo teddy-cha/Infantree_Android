@@ -26,7 +26,20 @@
 
     <EditText
         android:id="@+id/birth"
-        style="@style/com_kakao_profile_property_value"/>
+        style="@style/com_kakao_profile_property_value"
+        android:editable="false"/>
+
+    <Button
+    android:id="@+id/birthButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/com_kakao_profile_property_margin"
+    android:layout_marginLeft="@dimen/com_kakao_profile_property_margin"
+    android:layout_marginRight="@dimen/com_kakao_profile_property_margin"
+    android:textSize="@dimen/com_kakao_profile_property_text"
+    android:textStyle="bold"
+    android:paddingLeft="@dimen/com_kakao_padding"
+    android:text="날짜선택"/>
 
     <TextView
         android:text="@string/gender"
